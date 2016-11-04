@@ -8,3 +8,47 @@
 img {
   max-width: 100%;
 }
+
+.card {
+  box-shadow: 0px 4px 10px -3px rgba(0,0,0,0.3);
+  border-radius: 5px;
+  padding: 16px;
+}
+
+.recipe-adjust-controls {
+  padding-bottom: 16px;
+  border-bottom: 1px dotted lightgray;
+}
+
+.recipe-ingredients {
+  padding-top: 16px;
+}
+
+.ingredients-list{
+  padding: 0;
+  column-count: 2;
+  column-gap: 16px;
+  .ingredients-item{
+    padding: 5px 0;
+    list-style: none;
+  }
+}
+
+.measurements-control{
+  display: inline-block;
+  padding: 0 20px;
+}
+
+.yield-num {
+  width: 45px !important;
+}
+
+// stacked label + radio button
+.radio-stack{
+  padding: 0 4px;
+  text-align: center;
+  span{
+    display: block;
+    text-align: center;
+  }
+}

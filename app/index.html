@@ -7,8 +7,52 @@
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
-    
+
     <div id="app"></div>
+    <div class="wrapper" style="display: none;">
+      <div class="container">
+        <div class="row">
+          <!-- begin future react component -->
+          <div class="col-md-6 col-md-offset-3">
+
+            <div class="card card-recipe-adjust">
+              <div class="recipe-adjust-controls">
+                <form>
+                  <label class=>
+                    Makes <input class="yield-num" type="number" value="16"/> servings
+                  </label>
+                  <label for="measurement-us" class="radio-stack">
+                    <input id="measurement-us" type="radio" name="measurements" value="imperial"> 
+                    <span>US</span>
+                  </label>
+                  <label for="measurement-metric" class="radio-stack">
+                    <input id="measurement-metric" type="radio" name="measurements" value="metric">
+                    <span>Metric</span>
+                  </label>
+                  <input type="submit" value="Adjust Recipe" class="btn btn-default">
+                </form>
+              </div>
+              <div class="recipe-ingredients">
+                <ul class="ingredients-list">
+                  <li class="ingredients-item">
+                    <label>
+                      <input type="checkbox"> 2 cups flour
+                    </label>
+                  </li>
+                  <li class="ingredients-item">
+                    <label>
+                      <input type="checkbox"> 2 1/2 cups milk
+                    </label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
 
     <script src="js/bundle.js"></script>
   </body>
