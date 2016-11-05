@@ -4,7 +4,7 @@ var AppWrapper = require('./layout/layouts.jsx').AppWrapper;
 var ContainerRow = require('./layout/layouts.jsx').ContainerRow;
 var Section = require('./layout/layouts.jsx').Section;
 var Row = require('./layout/layouts.jsx').Row;
- 
+
 
 var IngredientList = React.createClass({
   render: function(){
