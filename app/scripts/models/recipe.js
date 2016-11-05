@@ -1,23 +1,6 @@
 var Backbone = require('backbone');
 
-var Recipe = Backbone.Model.extend({
-  idAttribute: 'objectId',
-  initialize: function(){
-    this.set('ingredients', new IngredientCollection());
-  },
-  defaults: {
-    name: 'Recipe Name',
-    yeildName: 'servings',
-    yeildQty: 1,
-    yeildMeasurement: 'imperial'
-  }
-});
-
-var RecipeCollection = Backbone.Model.extend({
-  model: Recipe,
-  // url: 'http://mtparseserver.herokuapp.com/classes/Recipe'
-});
-
+// ingredient model
 var Ingredient = Backbone.Model.extend({
   idAttribute: 'objectId',
   defaults: {
@@ -25,9 +8,56 @@ var Ingredient = Backbone.Model.extend({
   }
 });
 
-var IngredientCollection = Backbone.Model.extend({
+var IngredientCollection = Backbone.Collection.extend({
   model: Ingredient,
   // url: 'http://mtparseserver.herokuapp.com/classes/Ingredient'
+});
+
+
+
+// recipe model
+var Recipe = Backbone.Model.extend({
+  idAttribute: 'objectId',
+  initialize: function(){
+    // this.set('ingredients', new IngredientCollection());
+  },
+  defaults: {
+    name: 'Recipe Name',
+    yieldName: 'servings',
+    yieldQty: 1,
+    yieldMeasurement: 'imperial',
+    ingredients: []
+  },
+  updateYield: function(newYield){ // 24 (or any number)
+    var oldYield = this.get('yieldQty'); // 12
+    // console.log(newYield / oldYield);
+    this.updatePortions(newYield / oldYield);
+    this.set('yieldQty', newYield)
+  },
+  updatePortions: function(yieldResult){
+    var ingredients = this.get('ingredients'); // array of ing objects
+    var updated = ingredients.map(function(ing){
+       // return an object that looks like the one we mapped over.
+       // this is really ugly...
+       return {
+        "objectId": ing.objectId, 
+        "name": ing.name,
+        "measureUnit": ing.measureUnit,
+        "measureQty": ing.measureQty * yieldResult
+       }
+    });
+    this.set('ingredients', updated);
+    console.log(this.get('ingredients'), this);
+    // return this;
+  },
+  getRecipeState: function(){
+    return this;
+  }
+});
+
+var RecipeCollection = Backbone.Collection.extend({
+  model: Recipe,
+  // url: 'http://mtparseserver.herokuapp.com/classes/Recipe'
 });
 
 module.exports = {

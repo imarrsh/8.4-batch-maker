@@ -8,20 +8,21 @@ var Row = require('./layout/layouts.jsx').Row;
 
 var IngredientList = React.createClass({
   render: function(){
-
+    var recipe = this.props.recipe;
+    console.log(recipe);
+    var ingredients = recipe.get('ingredients');
     return(
       <div className="recipe-ingredients">
         <ul className="ingredients-list">
-          <li className="ingredients-item">
-            <label>
-              <input type="checkbox" /> 2 cups flour
-            </label>
-          </li>
-          <li className="ingredients-item">
-            <label>
-              <input type="checkbox" /> 2 1/2 cups milk
-            </label>
-          </li>
+          {ingredients.map(function(item){
+            return(
+              <li key={item.objectId} className="ingredients-item">
+                <label>
+                  <input type="checkbox" /> {item.measureQty} {item.measureUnit} {item.name}
+                </label>
+              </li>
+            );
+          }) }
         </ul>
       </div>
     );
@@ -29,21 +30,41 @@ var IngredientList = React.createClass({
 });
 
 var AdjustRecipeForm = React.createClass({
+  getInitialState: function(){
+    return {
+      yield: this.props.recipe.get('yieldQty')
+    };
+  },
+  handleYield: function(e){
+    this.setState({yield: e.target.value});
+  },
+  handleSubmit: function(e){
+    e.preventDefault();
+    var recipe = this.props.recipe;
+    recipe.updateYield(this.state.yield);
+    this.props.updateRecipe(recipe.getRecipeState());
+  },
   render: function(){
-    console.log(this.props.collection);
+    var recipe = this.props.recipe;
+    // console.log(recipe.get('yieldQty'));
     return(
       <div className="recipe-adjust-controls">
-        <form>
+        <form  onSubmit={this.handleSubmit}>
           <label className="form-inline">
-            Makes <input className="form-control yield-num" type="number" placeholder="16"/> servings
+            Makes &nbsp;
+            <input className="form-control yield-num"
+              defaultValue={recipe.get('yieldQty')}
+              onChange={this.handleYield} 
+              type="number"
+            />&nbsp; {recipe.get('yieldName')}
           </label>
           <div className="measurements-control">
             <label htmlFor="measurement-us" className="radio-stack">
-              <input id="measurement-us" type="radio" name="measurements" value="imperial" /> 
+              <input defaultChecked id="measurement-us" type="radio" name="measurements" value="imperial" /> 
               <span>US</span>
             </label>
             <label htmlFor="measurement-metric" className="radio-stack">
-              <input id="measurement-metric" type="radio" name="measurements" value="metric" />
+              <input disabled id="measurement-metric" type="radio" name="measurements" value="metric" />
               <span>Metric</span>
             </label>
           </div>
@@ -55,7 +76,21 @@ var AdjustRecipeForm = React.createClass({
 });
 
 var AdjustRecipeContainer = React.createClass({
+  getInitialState: function(){
+    return {
+      recipe: this.props.collection.get('hvjsf7q4')
+    };
+  },
+  // getDefaultProps: function(){
+  //   return {
+  //     recipe: this.props.collection.get('hvjsf7q4')
+  //   };
+  // },
+  updateRecipe: function(updatedRecipe){
+    this.setState({recipe: updatedRecipe})
+  },
   render: function(){
+    var recipe = this.state.recipe;
     return (  
       <AppWrapper>
         <Section>
@@ -64,21 +99,8 @@ var AdjustRecipeContainer = React.createClass({
             <div className="col-md-6 col-md-offset-3">
 
             <div className="card card-recipe-adjust">
-              <AdjustRecipeForm />
-              <div className="recipe-ingredients">
-                <ul className="ingredients-list">
-                  <li className="ingredients-item">
-                    <label>
-                      <input type="checkbox" /> 2 cups flour
-                    </label>
-                  </li>
-                  <li className="ingredients-item">
-                    <label>
-                      <input type="checkbox" /> 2 1/2 cups milk
-                    </label>
-                  </li>
-                </ul>
-              </div>
+              <AdjustRecipeForm recipe={recipe} updateRecipe={this.updateRecipe} />
+              <IngredientList recipe={recipe}/>
             </div>
 
           </div>
