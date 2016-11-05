@@ -42,7 +42,7 @@ var AdjustRecipeForm = React.createClass({
     e.preventDefault();
     var recipe = this.props.recipe;
     recipe.updateYield(this.state.yield);
-    this.props.updateRecipe(recipe.getRecipeState());
+    this.props.updateRecipe( recipe.getRecipeState() );
   },
   render: function(){
     var recipe = this.props.recipe;

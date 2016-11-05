@@ -8,8 +8,12 @@ var AdjustRecipeContainer = require('./components/adjustRecipe.jsx').AdjustRecip
 
 var AppRouter = Backbone.Router.extend({
   routes: {
-    '': 'index',
-    'login/': 'login'
+    '': 'index', // home for user
+    'login/': 'login' // place to login
+    // 'recipe/new': 'recipeNew',
+    // 'recipe/:id: 'recipeView'
+    // 'recipe/:id/edit': 'recipeEdit'
+    // ''
   },
   index: function(){
     var recipes = new RecipeCollection();
@@ -19,6 +23,12 @@ var AppRouter = Backbone.Router.extend({
       {
         "objectId": "hvjsf7q4", //id value from the db
         "name": "Sweet Potato Casserole",
+        "author": "Jane Doe",
+        "isPublic": false,
+        "type": "Dinner",
+        "prepTime": 15,
+        "cookTime": 30,
+        "cookTemp": 400,
         "yieldName": "servings",
         "yieldQty": 12,
         "yieldMeasurement": 'imperial',
@@ -57,10 +67,10 @@ var AppRouter = Backbone.Router.extend({
       }
     ]);
 
-    ReactDOM.render(
-      React.createElement(AdjustRecipeContainer, {collection: recipes}),
-      document.getElementById('app')
-    );
+    // ReactDOM.render(
+    //   React.createElement(AdjustRecipeContainer, {collection: recipes}),
+    //   document.getElementById('app')
+    // );
 
     
     // maybe need a join table for this data?

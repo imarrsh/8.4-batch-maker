@@ -9,50 +9,82 @@
   <body>
 
     <div id="app"></div>
-    <div class="wrapper" style="display: none;">
+    <div class="wrapper">
+
       <div class="container">
         <div class="row">
-          <!-- begin future react component -->
+
           <div class="col-md-6 col-md-offset-3">
 
-            <div class="card card-recipe-adjust">
-              <div class="recipe-adjust-controls">
-                <form>
-                  <label class=>
-                    Makes <input class="yield-num" type="number" value="16"/> servings
-                  </label>
-                  <label for="measurement-us" class="radio-stack">
-                    <input id="measurement-us" type="radio" name="measurements" value="imperial"> 
-                    <span>US</span>
-                  </label>
-                  <label for="measurement-metric" class="radio-stack">
-                    <input id="measurement-metric" type="radio" name="measurements" value="metric">
-                    <span>Metric</span>
-                  </label>
-                  <input type="submit" value="Adjust Recipe" class="btn btn-default">
-                </form>
-              </div>
-              <div class="recipe-ingredients">
-                <ul class="ingredients-list">
-                  <li class="ingredients-item">
-                    <label>
-                      <input type="checkbox"> 2 cups flour
-                    </label>
-                  </li>
-                  <li class="ingredients-item">
-                    <label>
-                      <input type="checkbox"> 2 1/2 cups milk
-                    </label>
-                  </li>
-                </ul>
-              </div>
+            <div class="new-recipe-form">
+
+              <form id="new-recipe">
+
+                <fieldset class="form-group recipe-basic-info">
+                  <div class="row">
+
+                    <div class="col-sm-3">
+                      <div class="photo-placeholder">+ Add Photo</div>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" name="recipe-name" class="form-control" placeholder="Recipe Name">
+                      <input type="text" name="recipe-author" class="form-control" placeholder="By">
+                      <label>
+                        <input type="radio" name="privacy-setting"> Make it Public
+                      </label>
+                      <label>
+                        <input type="radio" name="privacy-setting"> Keep it Private
+                      </label>
+                    </div>
+
+                  </div>
+                </fieldset>
+
+                <fieldset class="form-group recipe-details">
+                  <div class="row">
+
+                    <div class="col-sm-4">
+                      <select name="recipe-type" id="recipe-type" class="form-control">
+                        <option disabled selected value>Recipe Type</option>
+                        <option value="breakfast">Breakfast</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="dinner">Dinner</option>
+                        <option value="dessert">Dessert</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" name="recipe-prep-time" placeholder="Prep Time" class="form-control">
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" name="recipe-cook-time" placeholder="Cook Time" class="form-control">                      
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="input-group">
+                        <input type="text" name="recipe-cook-temp" placeholder="Cook Temp" class="form-control">
+                        <div class="input-group-addon">
+                          <select name="recipe-type" id="recipe-type">
+                            <option value="farenheit">&deg;F</option>
+                            <option value="celsius">&deg;C</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </fieldset>
+
+              </form>
+
             </div>
 
           </div>
 
         </div>
       </div>
+
     </div>
+
+
 
     <script src="js/bundle.js"></script>
   </body>

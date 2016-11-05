@@ -32,13 +32,14 @@ var Recipe = Backbone.Model.extend({
     var oldYield = this.get('yieldQty'); // 12
     // console.log(newYield / oldYield);
     this.updatePortions(newYield / oldYield);
-    this.set('yieldQty', newYield)
+    this.set('yieldQty', newYield);
   },
   updatePortions: function(yieldResult){
     var ingredients = this.get('ingredients'); // array of ing objects
     var updated = ingredients.map(function(ing){
        // return an object that looks like the one we mapped over.
-       // this is really ugly...
+       // this is pretty terrible, but it works for now...
+       // TODO: make this better
        return {
         "objectId": ing.objectId, 
         "name": ing.name,
@@ -47,7 +48,7 @@ var Recipe = Backbone.Model.extend({
        }
     });
     this.set('ingredients', updated);
-    console.log(this.get('ingredients'), this);
+    // console.log(this.get('ingredients'), this);
     // return this;
   },
   getRecipeState: function(){
