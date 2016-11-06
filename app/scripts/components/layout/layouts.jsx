@@ -35,12 +35,31 @@ var Section = function(props){
   )
 };
 
-var AppWrapper = function(props){
-    return(
-      <div className="wrapper">
-        {props.children}
+var AppHeader = function(props){
+  return(
+    <header className="app-header">
+      <div className="container">
+        <div className="row">
+          <nav className="navbar navbar-default">
+            <ul className="nav navbar-nav">
+              <li><a href="#">My Recipes</a></li>
+              <li><a href="#recipe/new/">New Recipe</a></li>
+            </ul>
+            <p className="navbar-text navbar-text-right">Signed in as {props.username}</p>
+          </nav>
+        </div>
       </div>
-    )
+    </header>
+  );
+};
+
+var AppWrapper = function(props){
+  return(
+    <div className="wrapper">
+      <AppHeader username={"USER_NAME"}/>
+      {props.children}
+    </div>
+  )
 };
 
 module.exports = {

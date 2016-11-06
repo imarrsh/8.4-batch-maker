@@ -7,7 +7,7 @@ var RecipeCollection = require('./models/recipe').RecipeCollection;
 var LoginContainer = require('./components/loginSignup.jsx').LoginContainer;
 var HomeContainer = require('./components/app.jsx').HomeContainer;
 var NewRecipeForm = require('./components/recipeForm.jsx').NewRecipeForm;
-var RecipePreview = require('./components/recipePreview.jsx').RecipePreview;
+var RecipePreviewContainer = require('./components/recipePreview.jsx').RecipePreviewContainer;
 var AdjustRecipeContainer = require('./components/adjustRecipe.jsx').AdjustRecipeContainer;
 
 var AppRouter = Backbone.Router.extend({
@@ -109,7 +109,7 @@ var AppRouter = Backbone.Router.extend({
   recipePreview: function(){
 
     ReactDOM.render(
-      React.createElement(RecipePreview),
+      React.createElement(RecipePreviewContainer),
       document.getElementById('app')
     );
   },
