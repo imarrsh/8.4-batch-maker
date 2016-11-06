@@ -5,7 +5,93 @@ var ContainerRow = require('./layout/layouts.jsx').ContainerRow;
 var Section = require('./layout/layouts.jsx').Section;
 var Row = require('./layout/layouts.jsx').Row;
 
+var RecipeDetailSet = React.createClass({
+  render: function(){
+    return(
+      <fieldset className="form-group recipe-details">
+        <div className="form-group">
+          <div className="row">
 
+            <div className="col-sm-4">
+              <select name="recipe-type" id="recipe-type" className="form-control">
+                <option selected disabled value>Recipe Type</option>
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="dessert">Dessert</option>
+              </select>
+            </div>
+            <div className="col-sm-2">
+              <input type="text" name="recipe-prep-time" placeholder="Prep Time" className="form-control" />
+            </div>
+            <div className="col-sm-2">
+              <input type="text" name="recipe-cook-time" placeholder="Cook Time" className="form-control" />                      
+            </div>
+            <div className="col-sm-4">
+              <div className="input-group">
+                <input type="text" name="recipe-cook-temp" placeholder="Cook Temp" className="form-control" />
+                <div className="input-group-addon">
+                  <select name="recipe-type" id="recipe-type">
+                    <option value="farenheit">&deg;F</option>
+                    <option value="celsius">&deg;C</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <div className="row">
+
+            <div className="col-sm-3">
+              This recipe will make
+            </div>
+            <div className="col-sm-2">
+              <input type="text" name="yeildQty" placeholder="Amount" className="form-control" />
+            </div>
+            <div className="col-sm-7">
+              <input type="text" name="yeildName" placeholder="cookies, loaves, ect." className="form-control" />                        
+            </div>
+          </div>
+
+        </div>  
+
+      </fieldset>
+    );
+  }
+});
+
+var BasicInfoSet = React.createClass({
+  render: function () {
+    return(
+      <fieldset className="form-group recipe-basic-info">
+        <legend>Basic Info</legend>
+        <div className="row">
+
+          <div className="col-sm-3">
+            <div className="photo-placeholder">+ Add Photo</div>
+          </div>
+          <div className="col-sm-9">
+            <div className="form-group">
+              <input type="text" name="recipe-name" className="form-control" placeholder="Recipe Name" />
+              <input type="text" name="recipe-author" className="form-control" placeholder="By" />
+            </div>
+            <div className="form-group">                      
+              <label>
+                <input type="radio" name="privacy-setting" /> Make it Public
+              </label>
+              <label>
+                <input type="radio" name="privacy-setting" /> Keep it Private
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </fieldset>
+    );
+  }
+});
 
 var NewRecipeForm = React.createClass({
   render: function(){
@@ -19,82 +105,10 @@ var NewRecipeForm = React.createClass({
               <div className="new-recipe-form">
 
                 <form id="new-recipe">
+                  
+                  <BasicInfoSet />
 
-                  <fieldset className="form-group recipe-basic-info">
-                    <legend>Basic Info</legend>
-                    <div className="row">
-
-                      <div className="col-sm-3">
-                        <div className="photo-placeholder">+ Add Photo</div>
-                      </div>
-                      <div className="col-sm-9">
-                        <div className="form-group">
-                          <input type="text" name="recipe-name" className="form-control" placeholder="Recipe Name" />
-                          <input type="text" name="recipe-author" className="form-control" placeholder="By" />
-                        </div>
-                        <div className="form-group">                      
-                          <label>
-                            <input type="radio" name="privacy-setting" /> Make it Public
-                          </label>
-                          <label>
-                            <input type="radio" name="privacy-setting" /> Keep it Private
-                          </label>
-                        </div>
-                      </div>
-
-                    </div>
-                  </fieldset>
-
-                  <fieldset className="form-group recipe-details">
-                    <div className="form-group">
-                      <div className="row">
-
-                        <div className="col-sm-4">
-                          <select name="recipe-type" id="recipe-type" className="form-control">
-                            <option selected disabled value>Recipe Type</option>
-                            <option value="breakfast">Breakfast</option>
-                            <option value="lunch">Lunch</option>
-                            <option value="dinner">Dinner</option>
-                            <option value="dessert">Dessert</option>
-                          </select>
-                        </div>
-                        <div className="col-sm-2">
-                          <input type="text" name="recipe-prep-time" placeholder="Prep Time" className="form-control" />
-                        </div>
-                        <div className="col-sm-2">
-                          <input type="text" name="recipe-cook-time" placeholder="Cook Time" className="form-control" />                      
-                        </div>
-                        <div className="col-sm-4">
-                          <div className="input-group">
-                            <input type="text" name="recipe-cook-temp" placeholder="Cook Temp" className="form-control" />
-                            <div className="input-group-addon">
-                              <select name="recipe-type" id="recipe-type">
-                                <option value="farenheit">&deg;F</option>
-                                <option value="celsius">&deg;C</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="form-group">
-                      <div className="row">
-
-                        <div className="col-sm-3">
-                          This recipe will make
-                        </div>
-                        <div className="col-sm-2">
-                          <input type="text" name="yeildQty" placeholder="Amount" className="form-control" />
-                        </div>
-                        <div className="col-sm-7">
-                          <input type="text" name="yeildName" placeholder="cookies, loaves, ect." className="form-control" />                        
-                        </div>
-                      </div>
-
-                    </div>  
-
-                  </fieldset>
+                  <RecipeDetailSet />
 
                   <fieldset className="form-group recipe-steps">
                     <legend>Step 1</legend>
@@ -162,9 +176,9 @@ var NewRecipeForm = React.createClass({
           </ContainerRow>
         </Section>
       </AppWrapper>
-    )
+    );
   }
-})
+});
 
 module.exports = {
   NewRecipeForm: NewRecipeForm

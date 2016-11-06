@@ -74,7 +74,6 @@ var AppRouter = Backbone.Router.extend({
   },
   index: function(){
 
-
     ReactDOM.render(
       React.createElement(HomeContainer),
       document.getElementById('app')
