@@ -40,12 +40,12 @@ var Recipe = Backbone.Model.extend({
        // return an object that looks like the one we mapped over.
        // this is pretty terrible, but it works for now...
        // TODO: make this better
-       return {
+      return {
         "objectId": ing.objectId, 
         "name": ing.name,
         "measureUnit": ing.measureUnit,
         "measureQty": ing.measureQty * yieldResult
-       };
+      };
     });
     this.set('ingredients', updated);
     // console.log(this.get('ingredients'), this);

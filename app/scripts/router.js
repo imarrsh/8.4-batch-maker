@@ -35,6 +35,7 @@ var AppRouter = Backbone.Router.extend({
         'prepTime': 15,
         'cookTime': 30,
         'cookTemp': 400,
+        'cookTempScale': 'F',
         'yieldName': 'servings',
         'yieldQty': 12,
         'yieldMeasurement': 'imperial',
