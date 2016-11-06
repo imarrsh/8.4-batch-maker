@@ -9,12 +9,12 @@ var Row = require('./layout/layouts.jsx').Row;
 var RecipeTitle = React.createClass({
   render: function(){
     return(
-      <div className="row">
+      <Row>
         <div className="col-xs-12">
           <h1>Recipe title</h1>
           <h5>by Recipe Author</h5>
         </div>
-      </div>
+      </Row>
     );
 }
 });
@@ -23,11 +23,11 @@ var RecipeTitle = React.createClass({
 var RecipeImage = React.createClass({
   render: function(){
     return(
-      <div className="row">
+      <Row>
         <div className="col-xs-12">
           <img src="http://placehold.it/800x450" alt="recipe-photo" />
         </div>
-      </div>
+      </Row>
     );
   }
 });
@@ -35,9 +35,9 @@ var RecipeImage = React.createClass({
 var RecipeDetail = React.createClass({
   render: function(){
     return(
-      <div className="row">
+      <Row>
         <div className="col-sm-10 col-sm-offset-1">
-          <div className="row">
+          <Row>
             <ul className="list-group">
               <li className="col-sm-3 list-group-item">
                 <h6>Recipe Type</h6>
@@ -56,9 +56,9 @@ var RecipeDetail = React.createClass({
                 <h2>350&deg;<small>F</small></h2>
               </li>
             </ul>
-          </div>
+          </Row>
         </div>
-      </div>
+      </Row>
     )
   }
 });
@@ -66,11 +66,11 @@ var RecipeDetail = React.createClass({
 var RecipeTable = React.createClass({
   render: function(){
     return(
-      <div className="row">
+      <Row>
         <div className="col-xs-10 col-xs-offset-1">
           <div className="recipe-table">
 
-            <div className="row">
+            <Row>
 
                 <ul className="list-group">
                   <li className="recipe-title list-group-item">
@@ -79,22 +79,22 @@ var RecipeTable = React.createClass({
                     </h4>
                   </li>
                   <li className="list-group-item">
-                    <div className="row">
+                    <Row>
                       <div className="col-xs-2">
                         <h4>.5 cup</h4>
                       </div>
                       <div className="col-xs-10">
                         <h4>Sugar</h4>
                       </div>
-                    </div>
+                    </Row>
                   </li>
                 </ul>
             
-            </div>
+            </Row>
 
           </div>
         </div>
-      </div>
+      </Row>
     );
   }
 });
@@ -102,11 +102,11 @@ var RecipeTable = React.createClass({
 var RecipeSteps = React.createClass({
   render: function(){
     return(
-      <div className="row">
+      <Row>
         <div className="col-xs-10 col-xs-offset-1">
           <div className="recipe-step">
             <h3>Step 1</h3>
-            <div className="row">
+            <Row>
               <div className="col-sm-8">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat obcaecati veritatis earum ea minus, quae consectetur nam, cupiditate libero iusto aspernatur. Beatae doloremque sit unde eaque aliquam, sed nesciunt aliquid.</p>
               </div>
@@ -126,10 +126,10 @@ var RecipeSteps = React.createClass({
                   </li>
                 </ul>
               </div>
-            </div>
+            </Row>
           </div>
         </div>
-      </div>
+      </Row>
     );
   }
 });
@@ -137,14 +137,14 @@ var RecipeSteps = React.createClass({
 var RecipeNotes = React.createClass({
   render: function(){
     return(
-      <div className="row">
+      <Row>
         <div className="col-xs-10 col-xs-offset-1">
           <div className="recipe-notes">
             <h3>Notes</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident cupiditate eius facilis id, cumque consectetur distinctio, facere veniam ratione amet iste explicabo optio voluptatum consequatur quam. Quas dolorum ut praesentium.</p>
           </div>
         </div>
-      </div>
+      </Row>
     )
   }
 })
@@ -152,7 +152,7 @@ var RecipeNotes = React.createClass({
 var RecipeEdit = React.createClass({
   render: function(){
     return(
-      <div className="row">
+      <Row>
         <div className="col-xs-10 col-xs-offset-1">
           <div className="recipe-edit">
             <p>
@@ -160,7 +160,7 @@ var RecipeEdit = React.createClass({
             </p>
           </div>
         </div>
-      </div>
+      </Row>
     );
   }
 })
@@ -189,7 +189,7 @@ var RecipePreviewContainer = React.createClass({
               <RecipeEdit />
 
             </div>
-          </div> 
+          </div>
 
         </ContainerRow>
       </AppWrapper> 

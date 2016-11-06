@@ -28,6 +28,7 @@ var AppRouter = Backbone.Router.extend({
       {
         'objectId': 'hvjsf7q4', //id value from the db
         'name': 'Sweet Potato Casserole',
+        'image': 'http://www.seriouseats.com/recipes/assets_c/2015/11/20151110-sweet-potato-casserole-vicky-wasik-9-thumb-1500xauto-427744.jpg',
         'author': 'Jane Doe',
         'isPublic': false,
         'type': 'Dinner',

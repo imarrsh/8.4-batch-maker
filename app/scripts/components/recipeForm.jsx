@@ -5,12 +5,43 @@ var ContainerRow = require('./layout/layouts.jsx').ContainerRow;
 var Section = require('./layout/layouts.jsx').Section;
 var Row = require('./layout/layouts.jsx').Row;
 
+var BasicInfoSet = React.createClass({
+  render: function () {
+    return(
+      <fieldset className="form-group recipe-basic-info">
+        <legend>Basic Info</legend>
+        <Row>
+
+          <div className="col-sm-3">
+            <div className="photo-placeholder">+ Add Photo</div>
+          </div>
+          <div className="col-sm-9">
+            <div className="form-group">
+              <input type="text" name="recipe-name" className="form-control" placeholder="Recipe Name" />
+              <input type="text" name="recipe-author" className="form-control" placeholder="By" />
+            </div>
+            <div className="form-group">                      
+              <label>
+                <input type="radio" name="privacy-setting" /> Make it Public
+              </label>
+              <label>
+                <input type="radio" name="privacy-setting" /> Keep it Private
+              </label>
+            </div>
+          </div>
+
+        </Row>
+      </fieldset>
+    );
+  }
+});
+
 var RecipeDetailSet = React.createClass({
   render: function(){
     return(
       <fieldset className="form-group recipe-details">
         <div className="form-group">
-          <div className="row">
+          <Row>
 
             <div className="col-sm-4">
               <select name="recipe-type" id="recipe-type" className="form-control">
@@ -38,11 +69,11 @@ var RecipeDetailSet = React.createClass({
                 </div>
               </div>
             </div>
-          </div>
+          </Row>
         </div>
 
         <div className="form-group">
-          <div className="row">
+          <Row>
 
             <div className="col-sm-3">
               This recipe will make
@@ -53,7 +84,7 @@ var RecipeDetailSet = React.createClass({
             <div className="col-sm-7">
               <input type="text" name="yeildName" placeholder="cookies, loaves, ect." className="form-control" />                        
             </div>
-          </div>
+          </Row>
 
         </div>  
 
@@ -62,36 +93,79 @@ var RecipeDetailSet = React.createClass({
   }
 });
 
-var BasicInfoSet = React.createClass({
-  render: function () {
+var RecipeStepsSet = React.createClass({
+  render: function(){
     return(
-      <fieldset className="form-group recipe-basic-info">
-        <legend>Basic Info</legend>
-        <div className="row">
-
-          <div className="col-sm-3">
-            <div className="photo-placeholder">+ Add Photo</div>
-          </div>
-          <div className="col-sm-9">
-            <div className="form-group">
-              <input type="text" name="recipe-name" className="form-control" placeholder="Recipe Name" />
-              <input type="text" name="recipe-author" className="form-control" placeholder="By" />
+      <fieldset className="form-group recipe-steps">
+        <legend>Step 1</legend>
+        
+        <div className="form-group">
+          <div className="row">
+            <div className="col-sm-2">
+              <input type="text" name="ingredient-qty" className="form-control" placeholder="Qty" />
             </div>
-            <div className="form-group">                      
-              <label>
-                <input type="radio" name="privacy-setting" /> Make it Public
-              </label>
-              <label>
-                <input type="radio" name="privacy-setting" /> Keep it Private
-              </label>
+            <div className="col-md-3">
+              <input type="text" name="ingredient-unit" className="form-control" placeholder="Unit" />
+            </div>
+            <div className="col-md-6">
+              <input type="text" name="ingredient-name" className="form-control" placeholder="Ingredient" />
+            </div>
+            <div className="col-md-1">
+              <button type="button" className="btn btn-default">+</button>
             </div>
           </div>
-
         </div>
+
+        <div className="form-group">
+          <div className="row">
+            <div className="col-sm-12">
+              <textarea name="stepDirections" className="form-control" rows="4" placeholder=""></textarea>
+            </div>
+          </div>
+        </div>
+
       </fieldset>
     );
   }
 });
+
+var RecipeNotesSet = React.createClass({
+  render: function(){
+    return(
+      <fieldset className="form-group recipe-steps">
+        <legend>Personal Notes</legend>
+
+        <div className="form-group">
+          <div className="row">
+            <div className="col-sm-12">
+              <textarea name="recipeNotes" className="form-control" rows="6"></textarea>
+            </div>
+          </div>
+        </div>
+
+      </fieldset>
+    );
+  }
+});
+
+var RecipeSaveSet = React.createClass({
+  render: function(){
+    return(
+      <fieldset className="form-group recipe-steps">
+
+        <div className="form-group">
+          <div className="row">
+            <div className="col-sm-12">
+              <input type="submit" value="Save Recipe" className="btn btn-primary" />
+            </div>
+          </div>
+        </div>
+
+      </fieldset>
+    );
+  }
+});
+
 
 var NewRecipeForm = React.createClass({
   render: function(){
@@ -110,62 +184,11 @@ var NewRecipeForm = React.createClass({
 
                   <RecipeDetailSet />
 
-                  <fieldset className="form-group recipe-steps">
-                    <legend>Step 1</legend>
-                    
-                    <div className="form-group">
-                      <div className="row">
-                        <div className="col-sm-2">
-                          <input type="text" name="ingredient-qty" className="form-control" placeholder="Qty" />
-                        </div>
-                        <div className="col-md-3">
-                          <input type="text" name="ingredient-unit" className="form-control" placeholder="Unit" />
-                        </div>
-                        <div className="col-md-6">
-                          <input type="text" name="ingredient-name" className="form-control" placeholder="Ingredient" />
-                        </div>
-                        <div className="col-md-1">
-                          <button type="button" className="btn btn-default">+</button>
-                        </div>
-                      </div>
-                    </div>
+                  <RecipeStepsSet />
 
-                    <div className="form-group">
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <textarea name="stepDirections" className="form-control" rows="4" placeholder=""></textarea>
-                        </div>
-                      </div>
-                    </div>
+                  <RecipeNotesSet />
 
-                  </fieldset>
-
-                  <fieldset className="form-group recipe-steps">
-                    <legend>Personal Notes</legend>
-
-                    <div className="form-group">
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <textarea name="recipeNotes" className="form-control" rows="6"></textarea>
-                        </div>
-                      </div>
-                    </div>
-
-                  </fieldset>
-
-                  <fieldset className="form-group recipe-steps">
-
-                    <div className="form-group">
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <input type="submit" value="Save Recipe" className="btn btn-primary" />
-                        </div>
-                      </div>
-                    </div>
-
-                  </fieldset>
-
-
+                  <RecipeSaveSet />
 
                 </form>
 
