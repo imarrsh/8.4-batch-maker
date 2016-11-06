@@ -98,12 +98,12 @@ var AdjustRecipeContainer = React.createClass({
 
             <div className="col-md-6 col-md-offset-3">
 
-            <div className="card card-recipe-adjust">
-              <AdjustRecipeForm recipe={recipe} updateRecipe={this.updateRecipe} />
-              <IngredientList recipe={recipe}/>
-            </div>
+              <div className="card card-recipe-adjust">
+                <AdjustRecipeForm recipe={recipe} updateRecipe={this.updateRecipe} />
+                <IngredientList recipe={recipe}/>
+              </div>
 
-          </div>
+            </div>
 
           </ContainerRow>
         </Section>

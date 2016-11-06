@@ -6,20 +6,23 @@ var RecipeCollection = require('./models/recipe').RecipeCollection;
 
 var AdjustRecipeContainer = require('./components/adjustRecipe.jsx').AdjustRecipeContainer;
 var NewRecipeForm = require('./components/recipeForm.jsx').NewRecipeForm;
+var RecipePreview = require('./components/recipePreview.jsx').RecipePreview;
 
 var AppRouter = Backbone.Router.extend({
   routes: {
     '': 'index', // home for user
     'login/': 'login', // place to login
-    'recipe/new/': 'recipeNew',
-    // 'recipe/:id: 'recipeView'
-    // 'recipe/:id/edit': 'recipeEdit'
+    'recipe/new/': 'recipeNew', // new recipe
+    'recipe/:id' : 'recipePreviewId', // the correct recipe preview
+    'recipe/:id/edit': 'recipeEdit', // recipe edit
+    // temporary routes
+    'recipe/': 'recipePreview', // recipe view 
+    'adjust/' : 'adjust' // recipe adjuster
   },
-  index: function(){
-    var recipes = new RecipeCollection();
-    // console.log(recipes);
+  initialize: function(){
+    this.recipes = new RecipeCollection();
     
-    recipes.add([
+    this.recipes.add([
       {
         "objectId": "hvjsf7q4", //id value from the db
         "name": "Sweet Potato Casserole",
@@ -66,23 +69,53 @@ var AppRouter = Backbone.Router.extend({
         ]
       }
     ]);
+  },
+  index: function(){
 
     // eventually needs to be the home view
     // ReactDOM.render(
-    //   React.createElement(AdjustRecipeContainer, {collection: recipes}),
+    //   React.createElement(RecipesList, {collection: recipes}),
     //   document.getElementById('app')
     // );
-
-    
-    // maybe need a join table for this data? TODO
   },
   login: function(){
-    // login junk
+
+    // ReactDOM.render(
+    //   React.createElement(Login),
+    //   document.getElementById('app')
+    // );
   },
   recipeNew: function(){
 
     ReactDOM.render(
       React.createElement(NewRecipeForm),
+      document.getElementById('app')
+    );
+  },
+  recipePreviewId: function(id){
+    
+    // ReactDOM.render(
+    //   React.createElement(RecipePreview, {model: id}),
+    //   document.getElementById('app')
+    // );
+  },
+  recipeEdit: function(id){
+    // ReactDOM.render(
+    //   React.createElement(RecipeEdit, {model: id}),
+    //   document.getElementById('app')
+    // );
+  },
+  recipePreview: function(){
+    
+    ReactDOM.render(
+      React.createElement(RecipePreview),
+      document.getElementById('app')
+    );
+  },
+  adjust: function(){
+
+    ReactDOM.render(
+      React.createElement(AdjustRecipeContainer, {collection: this.recipes}),
       document.getElementById('app')
     );
   }

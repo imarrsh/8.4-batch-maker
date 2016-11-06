@@ -57,3 +57,24 @@ img {
 .photo-placeholder {
   background-color: #f1f1f1;
 }
+
+.recipe-table {
+  h4 {
+    margin: 0;
+  }
+}
+
+.recipe-title{
+  background-color: #f1f1f1;
+}
+
+.recipe-step {
+  .ing-qty,
+  .ing-name {
+    display: inline-block;
+  }
+}
+
+.recipe-edit {
+  padding: 16px 0;
+}
