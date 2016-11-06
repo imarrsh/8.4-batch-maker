@@ -9,6 +9,10 @@ img {
   max-width: 100%;
 }
 
+.app-header{
+  background-color: #fafafa;
+}
+
 .card {
   box-shadow: 0px 4px 10px -3px rgba(0,0,0,0.3);
   border-radius: 5px;
@@ -77,4 +81,15 @@ img {
 
 .recipe-edit {
   padding: 16px 0;
+}
+
+.login-card {
+  padding: 16px;
+  border-radius: 5px;
+  background: #ffffff;
+  box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-text-right {
+  float: right;
 }

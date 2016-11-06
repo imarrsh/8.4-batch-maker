@@ -7,9 +7,23 @@
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
-
+    <div class="header-wrapper">
+      <header class="app-header">
+        <div class="container">
+          <div class="row">
+            <nav class="navbar navbar-default">
+              <ul class="nav navbar-nav">
+                <li><a href="#">My Recipes</a></li>
+                <li><a href="#recipe/new/">New Recipe</a></li>
+              </ul>
+              <p class="navbar-text navbar-text-right">Signed in as username</p>
+            </nav>
+          </div>
+        </div>
+      </header>
+    </div>
     <div id="app"></div>
-    
+
     <div class="new-recipe-wrapper" style="display: none;">
 
       <div class="container">
@@ -298,6 +312,63 @@
       </div> <!-- end container -->
 
     </div>
+
+    <div class="home-wrapper" style="display: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <div class="recipe-list">
+              <h1>My Recipes</h1>
+              <div class="list-group">
+                <a href="" class="list-group-item">Peanut Butter Pancakes</a></li>
+                <a href="" class="list-group-item">Sweet Potato Casserole</a>
+                <a href="" class="list-group-item">Buffalo Chicken Dip</a>
+                <a href="" class="list-group-item">Banana-Nut Muffins</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-wrapper" style="display: none;">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-5">
+            <div class="login-card">
+              <h1>Login</h1>
+              <form action="">
+                <div class="form-group">
+                  <input type="email" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Password">
+                </div>
+                <input type="submit" class="form-control btn btn-primary" value="Log In">
+              </form>
+            </div>
+          </div>
+
+          <div class="col-md-5 col-md-offset-2">
+            <div class="login-card">
+              <h1>No Account? Sign Up!</h1>
+              <form action="">
+                <div class="form-group">
+                  <input type="email" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Password">
+                </div>
+                <input type="submit" class="form-control btn btn-primary" value="Sign me Up!">
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
 
 
 

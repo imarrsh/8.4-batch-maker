@@ -45,7 +45,7 @@ var Recipe = Backbone.Model.extend({
         "name": ing.name,
         "measureUnit": ing.measureUnit,
         "measureQty": ing.measureQty * yieldResult
-       }
+       };
     });
     this.set('ingredients', updated);
     // console.log(this.get('ingredients'), this);

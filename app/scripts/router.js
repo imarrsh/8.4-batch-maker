@@ -4,9 +4,11 @@ var ReactDOM = require('react-dom');
 
 var RecipeCollection = require('./models/recipe').RecipeCollection;
 
-var AdjustRecipeContainer = require('./components/adjustRecipe.jsx').AdjustRecipeContainer;
+var LoginContainer = require('./components/loginSignup.jsx').LoginContainer;
+var HomeContainer = require('./components/app.jsx').HomeContainer;
 var NewRecipeForm = require('./components/recipeForm.jsx').NewRecipeForm;
 var RecipePreview = require('./components/recipePreview.jsx').RecipePreview;
+var AdjustRecipeContainer = require('./components/adjustRecipe.jsx').AdjustRecipeContainer;
 
 var AppRouter = Backbone.Router.extend({
   routes: {
@@ -72,18 +74,18 @@ var AppRouter = Backbone.Router.extend({
   },
   index: function(){
 
-    // eventually needs to be the home view
-    // ReactDOM.render(
-    //   React.createElement(RecipesList, {collection: recipes}),
-    //   document.getElementById('app')
-    // );
+
+    ReactDOM.render(
+      React.createElement(HomeContainer),
+      document.getElementById('app')
+    );
   },
   login: function(){
 
-    // ReactDOM.render(
-    //   React.createElement(Login),
-    //   document.getElementById('app')
-    // );
+    ReactDOM.render(
+      React.createElement(LoginContainer),
+      document.getElementById('app')
+    );
   },
   recipeNew: function(){
 
