@@ -15,58 +15,58 @@ var AppRouter = Backbone.Router.extend({
     '': 'index', // home for user
     'login/': 'login', // place to login
     'recipe/new/': 'recipeNew', // new recipe
-    'recipe/:id' : 'recipePreviewId', // the correct recipe preview
+    'recipe/:id': 'recipePreviewId', // the correct recipe preview
     'recipe/:id/edit': 'recipeEdit', // recipe edit
     // temporary routes
-    'recipe/': 'recipePreview', // recipe view 
-    'adjust/' : 'adjust' // recipe adjuster
+    'recipe/': 'recipePreview', // recipe view
+    'adjust/': 'adjust' // recipe adjuster
   },
   initialize: function(){
     this.recipes = new RecipeCollection();
-    
+
     this.recipes.add([
       {
-        "objectId": "hvjsf7q4", //id value from the db
-        "name": "Sweet Potato Casserole",
-        "author": "Jane Doe",
-        "isPublic": false,
-        "type": "Dinner",
-        "prepTime": 15,
-        "cookTime": 30,
-        "cookTemp": 400,
-        "yieldName": "servings",
-        "yieldQty": 12,
-        "yieldMeasurement": 'imperial',
-        "ingredients": [
+        'objectId': 'hvjsf7q4', //id value from the db
+        'name': 'Sweet Potato Casserole',
+        'author': 'Jane Doe',
+        'isPublic': false,
+        'type': 'Dinner',
+        'prepTime': 15,
+        'cookTime': 30,
+        'cookTemp': 400,
+        'yieldName': 'servings',
+        'yieldQty': 12,
+        'yieldMeasurement': 'imperial',
+        'ingredients': [
           {
-            "objectId": "fnjkw47e", 
-            "name": "sweet potoato",
-            "measureUnit": "pound",
-            "measureQty": 2
+            'objectId': 'fnjkw47e',
+            'name': 'sweet potoato',
+            'measureUnit': 'pound',
+            'measureQty': 2
           },
           {
-            "objectId": "fnjkw47f", 
-            "name": "marshmallows",
-            "measureUnit": "cup",
-            "measureQty": 2
+            'objectId': 'fnjkw47f',
+            'name': 'marshmallows',
+            'measureUnit': 'cup',
+            'measureQty': 2
           },
           {
-            "objectId": "fnjkw47x", 
-            "name": "brown sugar",
-            "measureUnit": "cup",
-            "measureQty": 1.5
+            'objectId': 'fnjkw47x',
+            'name': 'brown sugar',
+            'measureUnit': 'cup',
+            'measureQty': 1.5
           },
           {
-            "objectId": "dnjkw47x", 
-            "name": "crust",
-            "measureUnit": "container",
-            "measureQty": 1
+            'objectId': 'dnjkw47x',
+            'name': 'crust',
+            'measureUnit': 'container',
+            'measureQty': 1
           },
           {
-            "objectId": "dnfkw47z", 
-            "name": "banana",
-            "measureUnit": "",
-            "measureQty": 1
+            'objectId': 'dnfkw47z',
+            'name': 'banana',
+            'measureUnit': '',
+            'measureQty': 1
           }
         ]
       }
@@ -95,7 +95,7 @@ var AppRouter = Backbone.Router.extend({
     );
   },
   recipePreviewId: function(id){
-    
+
     // ReactDOM.render(
     //   React.createElement(RecipePreview, {model: id}),
     //   document.getElementById('app')
@@ -108,7 +108,7 @@ var AppRouter = Backbone.Router.extend({
     // );
   },
   recipePreview: function(){
-    
+
     ReactDOM.render(
       React.createElement(RecipePreview),
       document.getElementById('app')
