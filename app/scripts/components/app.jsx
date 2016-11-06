@@ -6,7 +6,14 @@ var Section = require('./layout/layouts.jsx').Section;
 var Row = require('./layout/layouts.jsx').Row;
 
 var HomeContainer = React.createClass({
+  getInitialState: function(){
+    var recipes = this.props.collection;
+    return {
+      recipes: recipes
+    };
+  },
   render: function(){
+    var recipes = this.state.recipes;
     return(
       <AppWrapper>
         <ContainerRow>
@@ -14,10 +21,16 @@ var HomeContainer = React.createClass({
             <div className="recipe-list">
               <h1>My Recipes</h1>
               <div className="list-group">
-                <a href="#recipe/" className="list-group-item">Peanut Butter Pancakes</a>
-                <a href="" className="list-group-item">Sweet Potato Casserole</a>
-                <a href="" className="list-group-item">Buffalo Chicken Dip</a>
-                <a href="" className="list-group-item">Banana-Nut Muffins</a>
+                {recipes.map(function(recipe){
+                  return(
+                    <a key={recipe.get('objectId')} 
+                       href={'#/recipe/' + recipe.get('objectId')} 
+                       className="list-group-item">
+                         {recipe.get('name')}
+                    </a>
+                  );
+                  
+                })}
               </div>
             </div>
           </div>

@@ -18,14 +18,17 @@ var BasicInfoSet = React.createClass({
           <div className="col-sm-9">
             <div className="form-group">
               <input type="text" name="recipe-name" className="form-control" placeholder="Recipe Name" />
-              <input type="text" name="recipe-author" className="form-control" placeholder="By" />
+            </div>
+            <div className="form-group">
+              <input type="text" name="recipe-author" className="form-control" placeholder="By You" />
             </div>
             <div className="form-group">                      
+              {/* TODO: make this work later if time permits
               <label>
-                <input type="radio" name="privacy-setting" /> Make it Public
-              </label>
+                <input type="radio" name="privacy-setting" disbabled /> Make it Public
+              </label> */}
               <label>
-                <input type="radio" name="privacy-setting" /> Keep it Private
+                <input type="radio" name="privacy-setting" defaultChecked /> Keep it Private
               </label>
             </div>
           </div>
@@ -97,7 +100,7 @@ var RecipeStepsSet = React.createClass({
   render: function(){
     return(
       <fieldset className="form-group recipe-steps">
-        <legend>Step 1</legend>
+        <legend>Ingedients</legend>
         
         <div className="form-group">
           <div className="row">
@@ -111,18 +114,18 @@ var RecipeStepsSet = React.createClass({
               <input type="text" name="ingredient-name" className="form-control" placeholder="Ingredient" />
             </div>
             <div className="col-md-1">
-              <button type="button" className="btn btn-default">+</button>
+              <button type="button" className="btn btn-default"><b>+</b></button>
             </div>
           </div>
         </div>
 
-        <div className="form-group">
+        {/* <div className="form-group">
           <div className="row">
             <div className="col-sm-12">
               <textarea name="stepDirections" className="form-control" rows="4" placeholder=""></textarea>
             </div>
           </div>
-        </div>
+        </div> */}
 
       </fieldset>
     );

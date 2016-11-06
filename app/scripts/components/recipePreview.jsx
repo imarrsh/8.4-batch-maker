@@ -8,11 +8,13 @@ var Row = require('./layout/layouts.jsx').Row;
 // 1
 var RecipeTitle = React.createClass({
   render: function(){
+    var recipe = this.props.recipe;
+    console.log(recipe)
     return(
       <Row>
         <div className="col-xs-12">
-          <h1>Recipe title</h1>
-          <h5>by Recipe Author</h5>
+          <h1>{recipe.get('name')}</h1>
+          <h5>by {recipe.get('author')}</h5>
         </div>
       </Row>
     );
@@ -22,10 +24,11 @@ var RecipeTitle = React.createClass({
 // 2
 var RecipeImage = React.createClass({
   render: function(){
+    var recipe = this.props.recipe;
     return(
       <Row>
         <div className="col-xs-12">
-          <img src="http://placehold.it/800x450" alt="recipe-photo" />
+          <img src={recipe.get('image')} alt="recipe-photo" />
         </div>
       </Row>
     );
@@ -34,6 +37,7 @@ var RecipeImage = React.createClass({
 
 var RecipeDetail = React.createClass({
   render: function(){
+    var recipe = this.props.recipe;
     return(
       <Row>
         <div className="col-sm-10 col-sm-offset-1">
@@ -41,19 +45,19 @@ var RecipeDetail = React.createClass({
             <ul className="list-group">
               <li className="col-sm-3 list-group-item">
                 <h6>Recipe Type</h6>
-                <h2>Type</h2>
+                <h2>{recipe.get('type')}</h2>
               </li>
               <li className="col-sm-3 list-group-item">
                 <h6>Prep Time</h6>
-                <h2>15<small>min</small></h2>
+                <h2>{recipe.get('prepTime')}<small>min</small></h2>
               </li>
               <li className="col-sm-3 list-group-item">
                 <h6>Cook Time</h6>
-                <h2>20<small>min</small></h2>
+                <h2>{recipe.get('cookTime')}<small>min</small></h2>
               </li>
               <li className="col-sm-3 list-group-item">
                 <h6>Cook Temp</h6>
-                <h2>350&deg;<small>F</small></h2>
+                <h2>{recipe.get('cookTemp')}&deg;<small>F</small></h2>
               </li>
             </ul>
           </Row>
@@ -65,6 +69,7 @@ var RecipeDetail = React.createClass({
 
 var RecipeTable = React.createClass({
   render: function(){
+    var recipe = this.props.recipe;
     return(
       <Row>
         <div className="col-xs-10 col-xs-offset-1">
@@ -75,19 +80,23 @@ var RecipeTable = React.createClass({
                 <ul className="list-group">
                   <li className="recipe-title list-group-item">
                     <h4>
-                      12 units <button className="btn btn-default">Adjust</button>
+                      {recipe.get('yieldQty')} {recipe.get('yieldName')} <button className="btn btn-default">Adjust</button>
                     </h4>
                   </li>
-                  <li className="list-group-item">
-                    <Row>
-                      <div className="col-xs-2">
-                        <h4>.5 cup</h4>
-                      </div>
-                      <div className="col-xs-10">
-                        <h4>Sugar</h4>
-                      </div>
-                    </Row>
-                  </li>
+                  {recipe.get('ingredients').map(function(ingredient){
+                    return(
+                      <li key={ingredient.objectId} className="list-group-item">
+                        <Row>
+                          <div className="col-xs-3">
+                            <h4>{ingredient.measureQty} {ingredient.measureUnit}</h4>
+                          </div>
+                          <div className="col-xs-9">
+                            <h4>{ingredient.name}</h4>
+                          </div>
+                        </Row>
+                      </li>
+                    );
+                  })}
                 </ul>
             
             </Row>
@@ -99,6 +108,7 @@ var RecipeTable = React.createClass({
   }
 });
 
+// TODO: make this work if time permits!
 var RecipeSteps = React.createClass({
   render: function(){
     return(
@@ -136,12 +146,13 @@ var RecipeSteps = React.createClass({
 
 var RecipeNotes = React.createClass({
   render: function(){
+    var recipe = this.props.recipe;
     return(
       <Row>
         <div className="col-xs-10 col-xs-offset-1">
           <div className="recipe-notes">
             <h3>Notes</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident cupiditate eius facilis id, cumque consectetur distinctio, facere veniam ratione amet iste explicabo optio voluptatum consequatur quam. Quas dolorum ut praesentium.</p>
+            <p>{recipe.get('notes')}</p>
           </div>
         </div>
       </Row>
@@ -165,8 +176,19 @@ var RecipeEdit = React.createClass({
   }
 })
 
+/**
+ * RecipePreviewContainer Smart Component
+ */
 var RecipePreviewContainer = React.createClass({
+  getInitialState: function(){
+    // var recipe = this.props.collection.get('hvjsf7q4');
+    var recipe = this.props.model;
+    return {
+      recipe: recipe
+    }
+  },
   render: function(){
+    var recipe = this.state.recipe;
     return(
       <AppWrapper>
         <ContainerRow>
@@ -174,19 +196,20 @@ var RecipePreviewContainer = React.createClass({
           <div className="col-md-8 col-md-offset-2">    
             <div className="recipe-preview">
               
-              <RecipeTitle />
+              <RecipeTitle recipe={recipe}/>
 
-              <RecipeImage />
+              <RecipeImage recipe={recipe}/>
 
-              <RecipeDetail />
+              <RecipeDetail recipe={recipe}/>
 
-              <RecipeTable />
+              <RecipeTable recipe={recipe}/>
               
-              <RecipeSteps />
+              {/* TODO: add this in later */}
+              {/* <RecipeSteps recipe={recipe}/> */}
               
-              <RecipeNotes />
+              <RecipeNotes recipe={recipe}/>
 
-              <RecipeEdit />
+              <RecipeEdit recipe={recipe}/>
 
             </div>
           </div>
