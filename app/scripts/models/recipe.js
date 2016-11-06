@@ -41,7 +41,7 @@ var Recipe = Backbone.Model.extend({
        // this is pretty terrible, but it works for now...
        // TODO: make this better
       return {
-        "objectId": ing.objectId, 
+        "objectId": ing.objectId,
         "name": ing.name,
         "measureUnit": ing.measureUnit,
         "measureQty": ing.measureQty * yieldResult

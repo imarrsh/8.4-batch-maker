@@ -1,10 +1,14 @@
 var React = require('react');
 
+var IngredientFormBlockCollection = require('../models/ingredientsForm.js').IngredientFormBlockCollection;
+var IngredientFormBlock = require('../models/ingredientsForm.js').IngredientFormBlock;
+
 var AppWrapper = require('./layout/layouts.jsx').AppWrapper;
 var ContainerRow = require('./layout/layouts.jsx').ContainerRow;
 var Section = require('./layout/layouts.jsx').Section;
 var Row = require('./layout/layouts.jsx').Row;
 
+// recipe creator, name,
 var BasicInfoSet = React.createClass({
   getInitialState: function(){
     return {
@@ -55,6 +59,7 @@ var BasicInfoSet = React.createClass({
   }
 });
 
+// some recipe details
 var RecipeDetailSet = React.createClass({
   getInitialState: function(){
     return {
@@ -143,7 +148,9 @@ var RecipeDetailSet = React.createClass({
   }
 });
 
-var RecipeStepsSet = React.createClass({
+
+// individual ingredient row
+var RecipeIngredientRow = React.createClass({
   getInitialState: function(){
     return {
       measureQty: '',
@@ -151,27 +158,68 @@ var RecipeStepsSet = React.createClass({
       name: ''
     };
   },
+  handleInput: function(){},
   render: function(){
+    var cid = this.props.key;
+    return(
+      <div className="form-group">
+        <div className="row">
+          <div className="col-sm-2">
+            <input type="text" name="measureQty"
+              className="form-control" placeholder="Qty" 
+            />
+          </div>
+          <div className="col-md-3">
+            <input type="text" name="measureUnit" className="form-control" placeholder="Unit" />
+          </div>
+          <div className="col-md-6">
+            <input type="text" name="name" className="form-control" placeholder="Ingredient" />
+          </div>
+          <div className="col-md-1">
+            <button onClick={this.props.newRow} type="button" className="btn btn-default"><b>+</b></button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+});
+
+
+// just adding ingredients here
+var RecipeStepsSet = React.createClass({
+  getInitialState: function(){
+    var ingredientInputs = new IngredientFormBlockCollection();
+    return {
+      ingredientInputs: ingredientInputs, // from new IngredientFormBlockCollection()
+      ingredients: []
+    };
+  },
+  componentWillMount: function(){
+    this.state.ingredientInputs.add([{}]);
+  },
+  // fieldChangeHandler: function(e){
+  //   // get the target changed name and value
+  //   // set the state
+  //   this.setState({[e.target.name]: e.target.value});
+  //   console.log(changeObj);
+  // },
+  addNewIngredientRow: function(e){
+    console.log('adding a new ingredient row...');
+    this.state.ingredientInputs.add([{}]);
+
+    this.setState({ingredientInputs: this.state.ingredientInputs});
+  },
+  render: function(){
+    var self = this;
     return(
       <fieldset className="form-group recipe-steps">
         <legend>Ingedients</legend>
         
-        <div className="form-group">
-          <div className="row">
-            <div className="col-sm-2">
-              <input type="text" name="ingredient-qty" className="form-control" placeholder="Qty" />
-            </div>
-            <div className="col-md-3">
-              <input type="text" name="ingredient-unit" className="form-control" placeholder="Unit" />
-            </div>
-            <div className="col-md-6">
-              <input type="text" name="ingredient-name" className="form-control" placeholder="Ingredient" />
-            </div>
-            <div className="col-md-1">
-              <button type="button" className="btn btn-default"><b>+</b></button>
-            </div>
-          </div>
-        </div>
+        {this.state.ingredientInputs.map(function(input){
+          return (
+            <RecipeIngredientRow key={input.cid} newRow={self.addNewIngredientRow} />
+          );
+        })}
 
         {/* <div className="form-group">
           <div className="row">
@@ -186,6 +234,7 @@ var RecipeStepsSet = React.createClass({
   }
 });
 
+// add notes
 var RecipeNotesSet = React.createClass({
   render: function(){
     return(
@@ -205,6 +254,7 @@ var RecipeNotesSet = React.createClass({
   }
 });
 
+// save recipe
 var RecipeSaveSet = React.createClass({
   render: function(){
     return(
@@ -225,6 +275,27 @@ var RecipeSaveSet = React.createClass({
 
 
 var NewRecipeForm = React.createClass({
+  getInitialState: function(){
+
+    return {
+      // basic info
+      name: '',
+      author: '',
+      // details
+      type: '',
+      prepTime: '',
+      cookTime: '',
+      cookTemp: '',
+      cookTempScale: 'F',
+      yieldName: '',
+      yieldQty: '',
+      ingredients : [],
+      notes: ''
+    }
+  },
+  fieldChangeHandler: function(e){
+    // top level method for collecting input state info
+  },
   render: function(){
     return(
       <AppWrapper>
