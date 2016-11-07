@@ -1,11 +1,12 @@
 var React = require('react');
 
 // form ui models
+var IngredientBlock = require('../models/ingredientsForm.js').IngredientBlock;
 var IngredientBlockCollection = require('../models/ingredientsForm.js').IngredientBlockCollection;
 
 // data models
-var Ingredient = require('../models/recipe.js').Ingredient;
-var IngredientCollection = require('../models/recipe.js').IngredientCollection;
+// var Ingredient = require('../models/recipe.js').Ingredient;
+// var IngredientCollection = require('../models/recipe.js').IngredientCollection;
 
 // layout components
 var AppWrapper = require('./layout/layouts.jsx').AppWrapper;
@@ -136,33 +137,34 @@ var RecipeDetailSet = React.createClass({
 
 // individual ingredient row
 var RecipeIngredientRow = React.createClass({
+
   getInitialState: function(){
-    var newIngredient = new Ingredient();
-    return {
-      measureQty: '',
-      measureUnit: '',
-      name: ''
-    };
-  },
-  handleInput: function(e){ // update this input groups state
+    // get the ingredient model
     var ingredient = this.props.model;
-    ingredient.set(e.target.name, e.target.value);
-
-    // console.log(e.target.name, e.target.value, ingredient);
-    // this.setState({[e.target.name]: e.target.value});
-    this.props.onChange('ingredients', ingredient);
-  },
-  handleAddNewRow: function(e) { // add a new row
-    // Collect data in an object
-    var ingredient = {
-      measureQty: this.state.measureQty,
-      measureUnit: this.state.measureUnit,
-      name: this.state.name
+    return {
+      ingredient: ingredient // put the model in state
     };
-
-    // hand off to smart component
-    this.props.newRow(ingredient);
   },
+
+  handleInput: function(e){ 
+    // get the ingredient from state
+    var ingredient = this.state.ingredient;
+    
+    // store the values in variables
+    var name = e.target.name;
+    var value = e.target.value;
+
+    // populate the model, name: value
+    ingredient.set(name, value);
+
+    console.log( name, value, ingredient);
+    // this.setState({[e.target.name]: e.target.value});
+    // this.props.onChange('ingredients', ingredient);
+  },
+
+  // handleAddNewRow: function(e) { // add a new row
+
+  // },
   render: function(){
     var cid = this.props.key;
     return(
@@ -181,12 +183,13 @@ var RecipeIngredientRow = React.createClass({
               name="name" className="form-control" placeholder="Ingredient" />
           </div>
           <div className="col-md-1">
-            <button onClick={this.handleAddNewRow} type="button" className="btn btn-default"><b>+</b></button>
+            <button onClick={this.props.addIngredientRow} type="button" className="btn btn-default"><b>+</b></button>
           </div>
         </div>
       </div>
     );
   }
+
 });
 
 
@@ -197,38 +200,45 @@ var RecipeIngredientRow = React.createClass({
 // just adding ingredients here
 var RecipeStepsSet = React.createClass({
   getInitialState: function(){
-    var ingredientInputs = new IngredientBlockCollection();
+    // var ingredientInputs = new IngredientBlockCollection();
+    var ingredientInputs = this.props.ingredientBlocks;
     return {
-      ingredientInputs: ingredientInputs, // from new IngredientBlockCollection()
-      ingredientCollection: [] // need to fill this up with objects
+      ingredientInputs: ingredientInputs // from new IngredientBlockCollection()
     };
   },
   componentWillMount: function(){
-    // hacking the collection for UI state, add empty model
-    this.state.ingredientInputs.add([{}]); // first ingredient
+    var newIngredient = new IngredientBlock();
+
+    this.state.ingredientInputs.add(newIngredient); // first ingredient
   },
-  addNewIngredientRow: function(ingredient){
-
-    var currentIngredients = this.state.ingredients; // get the current ingredients
-    currentIngredients.push(ingredient); // push the new ingredient
-
-    this.setState({ingredients: currentIngredients}); // the the state for ingredients
-
-    // checking my work
-    console.log('adding a new ingredient row...', this.state.ingredients, this.state.ingredientInputs);
+  addIngredientRow: function(e){
+    var newIngredient = new IngredientBlock();
+    this.state.ingredientInputs.add(newIngredient);
     
-    // more collection hacking to add inputs
-    this.state.ingredientInputs.add([{}]);
+  //   var currentIngredients = this.state.ingredients; // get the current ingredients
+  //   currentIngredients.push(ingredient); // push the new ingredient
+
+  //   this.setState({ingredients: currentIngredients}); // the the state for ingredients
+
+  //   // checking my work
+  //   console.log('adding a new ingredient row...', this.state.ingredients, this.state.ingredientInputs);
+    
+  //   // more collection hacking to add inputs
+  //   this.state.ingredientInputs.add([{}]);
 
     this.setState({
       ingredientInputs: this.state.ingredientInputs
     });
+
     /*
       I need to be able to update the ingredients on the top level state.
       when an empty model is added, i need to be able to tie the model 
-      to a new ingredient object in the ingredients array.
+      to a new ingredient object in the ingredients collection.
      */
+    
   },
+  
+
   render: function(){
     var self = this;
     return(
@@ -240,7 +250,7 @@ var RecipeStepsSet = React.createClass({
             <RecipeIngredientRow 
               key={input.cid} 
               model={input} 
-              newRow={self.addNewIngredientRow} 
+              addIngredientRow={self.addIngredientRow} 
               onChange={self.props.onChange} />
           );
         })}
@@ -309,7 +319,7 @@ var RecipeSaveSet = React.createClass({
 
 var NewRecipeForm = React.createClass({
   getInitialState: function(){
-
+    var ingredients = new IngredientBlockCollection();
     return {
       // basic info
       name: '',
@@ -323,7 +333,7 @@ var NewRecipeForm = React.createClass({
       cookTempScale: 'F',
       yieldName: '',
       yieldQty: '',
-      ingredients : [],
+      ingredients : ingredients,
       notes: ''
     }
   },
@@ -351,7 +361,7 @@ var NewRecipeForm = React.createClass({
 
                   <RecipeDetailSet onChange={this.handleFieldChange} />
 
-                  <RecipeStepsSet onChange={this.handleFieldChange}/>
+                  <RecipeStepsSet onChange={this.handleFieldChange} ingredientBlocks={this.state.ingredients}/>
 
                   <RecipeNotesSet onChange={this.handleFieldChange} />
 
