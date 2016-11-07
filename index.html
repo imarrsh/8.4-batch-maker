@@ -1,0 +1,377 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    <title>Batch Maker</title>
+    <link rel="stylesheet" href="css/app.css">
+  </head>
+  <body>
+
+    <div id="app"></div>
+
+    <div class="header-wrapper" style="display: none;">
+      <header class="app-header">
+        <div class="container">
+          <div class="row">
+            <nav class="navbar navbar-default">
+              <ul class="nav navbar-nav">
+                <li><a href="#">My Recipes</a></li>
+                <li><a href="#recipe/new/">New Recipe</a></li>
+              </ul>
+              <p class="navbar-text navbar-text-right">Signed in as username</p>
+            </nav>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <div class="new-recipe-wrapper" style="display: none;">
+
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-8 col-md-offset-2">
+
+            <div class="new-recipe-form">
+
+              <form id="new-recipe">
+
+                <fieldset class="form-group recipe-basic-info">
+                  <legend>Basic Info</legend>
+                  <div class="row">
+
+                    <div class="col-sm-3">
+                      <div class="photo-placeholder">+ Add Photo</div>
+                    </div>
+                    <div class="col-sm-9">
+                      <div class="form-group">
+                        <input type="text" name="recipe-name" class="form-control" placeholder="Recipe Name">
+                        <input type="text" name="recipe-author" class="form-control" placeholder="By">
+                      </div>
+                      <div class="form-group">                      
+                        <label>
+                          <input type="radio" name="privacy-setting"> Make it Public
+                        </label>
+                        <label>
+                          <input type="radio" name="privacy-setting"> Keep it Private
+                        </label>
+                      </div>
+                    </div>
+
+                  </div>
+                </fieldset>
+
+                <fieldset class="form-group recipe-details">
+                  <div class="form-group">
+                    <div class="row">
+
+                      <div class="col-sm-4">
+                        <select name="recipe-type" id="recipe-type" class="form-control">
+                          <option disabled selected value>Recipe Type</option>
+                          <option value="breakfast">Breakfast</option>
+                          <option value="lunch">Lunch</option>
+                          <option value="dinner">Dinner</option>
+                          <option value="dessert">Dessert</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" name="recipe-prep-time" placeholder="Prep Time" class="form-control">
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" name="recipe-cook-time" placeholder="Cook Time" class="form-control">                      
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="input-group">
+                          <input type="text" name="recipe-cook-temp" placeholder="Cook Temp" class="form-control">
+                          <div class="input-group-addon">
+                            <select name="recipe-type" id="recipe-type">
+                              <option value="farenheit">&deg;F</option>
+                              <option value="celsius">&deg;C</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="row">
+
+                      <div class="col-sm-3">
+                        This recipe will make
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" name="yeildQty" placeholder="Amount" class="form-control">
+                      </div>
+                      <div class="col-sm-7">
+                        <input type="text" name="yeildName" placeholder="cookies, loaves, ect." class="form-control">                        
+                      </div>
+                    </div>
+
+                  </div>  
+
+                </fieldset>
+
+                <fieldset class="form-group recipe-steps">
+                  <legend>Step 1</legend>
+                  
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-2">
+                        <input type="text" name="ingredient-qty" class="form-control" placeholder="Qty">
+                      </div>
+                      <div class="col-md-3">
+                        <input type="text" name="ingredient-unit" class="form-control" placeholder="Unit">
+                      </div>
+                      <div class="col-md-6">
+                        <input type="text" name="ingredient-name" class="form-control" placeholder="Ingredient">
+                      </div>
+                      <div class="col-md-1">
+                        <button type="button" class="btn btn-default">+</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <textarea name="stepDirections" class="form-control" rows="4" placeholder=""></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                </fieldset>
+
+                <fieldset class="form-group recipe-steps">
+                  <legend>Personal Notes</legend>
+
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <textarea name="recipeNotes" class="form-control" rows="6"></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                </fieldset>
+
+                <fieldset class="form-group recipe-steps">
+
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="submit" value="Save Recipe" class="btn btn-primary">
+                      </div>
+                    </div>
+                  </div>
+
+                </fieldset>
+
+
+
+              </form>
+
+            </div> <!-- end form container -->
+
+          </div> <!-- end column -->
+
+        </div> <!-- end row -->
+      </div> <!-- end container -->
+    </div>
+
+    <div class="view-recipe-wrapper" style="display: none;">
+
+      <div class="container">
+        <div class="row">
+          
+          <div class="col-md-8 col-md-offset-2">
+            
+            <div class="recipe-preview">
+              <!-- recpie title -->
+              <div class="row">
+                <div class="col-xs-12">
+                  <h1>Recipe title</h1>
+                  <h5>by Recipe Author</h5>
+                </div>
+              </div>
+              <!-- recipe image -->
+              <div class="row">
+                <div class="col-xs-12">
+                  <img src="http://placehold.it/800x450" alt="recipe-photo">
+                </div>
+              </div>
+              <!-- recipe detail-->
+              <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                  <div class="row">
+                    <ul class="list-group">
+                      <li class="col-sm-3 list-group-item">
+                        <h6>Recipe Type</h6>
+                        <h2>Type</h2>
+                      </li>
+                      <li class="col-sm-3 list-group-item">
+                        <h6>Prep Time</h6>
+                        <h2>15<small>min</small></h2>
+                      </li>
+                      <li class="col-sm-3 list-group-item">
+                        <h6>Cook Time</h6>
+                        <h2>20<small>min</small></h2>
+                      </li>
+                      <li class="col-sm-3 list-group-item">
+                        <h6>Cook Temp</h6>
+                        <h2>350&deg;<small>F</small></h2>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- recipe table -->
+              <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                  <div class="recipe-table">
+  
+                    <div class="row">
+  
+                        <ul class="list-group">
+                          <li class="recipe-title list-group-item">
+                            <h4>
+                              12 units <button class="btn btn-default">Adjust</button>
+                            </h4>
+                          </li>
+                          <li class="list-group-item">
+                            <div class="row">
+                              <div class="col-xs-2">
+                                <h4>.5 cup</h4>
+                              </div>
+                              <div class="col-xs-10">
+                                <h4>Sugar</h4>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                    
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <!-- steps -->
+              <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                  <div class="recipe-step">
+                    <h3>Step 1</h3>
+                    <div class="row">
+                      <div class="col-sm-8">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat obcaecati veritatis earum ea minus, quae consectetur nam, cupiditate libero iusto aspernatur. Beatae doloremque sit unde eaque aliquam, sed nesciunt aliquid.</p>
+                      </div>
+                      <div class="col-sm-4">
+                        <ul class="list-group">
+                          <li class="list-group-item">
+                            <div class="ing-qty">.5 cup</div>
+                            <div class="ing-name">Sugar</div>
+                          </li>
+                          <li class="list-group-item">
+                            <div class="ing-qty">.5 cup</div>
+                            <div class="ing-name">flour</div>
+                          </li>
+                          <li class="list-group-item">
+                            <div class="ing-qty">1 lb.</div>
+                            <div class="ing-name">apples</div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- recipe notes -->
+              <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                  <div class="recipe-notes">
+                    <h3>Notes</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident cupiditate eius facilis id, cumque consectetur distinctio, facere veniam ratione amet iste explicabo optio voluptatum consequatur quam. Quas dolorum ut praesentium.</p>
+                  </div>
+                </div>
+              </div>
+              <!-- recipe edit -->
+              <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                  <div class="recipe-edit">
+                    <p>
+                      Edit this recipe <a href="#recipe/id/edit" class="btn btn-primary">Start</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div> <!-- end recipe-preview -->
+
+          </div> <!-- end column -->
+
+        </div> <!-- end row -->
+      </div> <!-- end container -->
+    </div>
+
+    <div class="home-wrapper" style="display: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <div class="recipe-list">
+              <h1>My Recipes</h1>
+              <div class="list-group">
+                <a href="" class="list-group-item">Peanut Butter Pancakes</a></li>
+                <a href="" class="list-group-item">Sweet Potato Casserole</a>
+                <a href="" class="list-group-item">Buffalo Chicken Dip</a>
+                <a href="" class="list-group-item">Banana-Nut Muffins</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-wrapper" style="display: none;">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-5">
+            <div class="login-card">
+              <h1>Login</h1>
+              <form action="">
+                <div class="form-group">
+                  <input type="email" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Password">
+                </div>
+                <input type="submit" class="form-control btn btn-primary" value="Log In">
+              </form>
+            </div>
+          </div>
+
+          <div class="col-md-5 col-md-offset-2">
+            <div class="login-card">
+              <h1>No Account? Sign Up!</h1>
+              <form action="">
+                <div class="form-group">
+                  <input type="email" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Password">
+                </div>
+                <input type="submit" class="form-control btn btn-primary" value="Sign me Up!">
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <script src="js/bundle.js"></script>
+  </body>
+</html>
