@@ -39,6 +39,11 @@ var BasicInfoSet = React.createClass({
                 type="text" name="author" className="form-control" placeholder="By You" 
               />
             </div>
+            <div className="form-group">
+              <input onChange={this.handleFieldChange}
+                type="text" name="imageUrl" className="form-control" placeholder="Image Url" 
+              />
+            </div>
             <div className="form-group">                      
               {/* TODO: make this work later if time permits
               <label>
@@ -81,14 +86,20 @@ var RecipeDetailSet = React.createClass({
               </select>
             </div>
             <div className="col-sm-2">
-              <input onChange={this.handleFieldChange} name="prepTime"  
-                type="text" placeholder="Prep Time (mins)" className="form-control" 
-              />
+              <div className="input-group">
+                <input onChange={this.handleFieldChange} id="prepTime" name="prepTime"  
+                  type="text" placeholder="Prep" className="form-control" 
+                />
+                <div className="input-group-addon">mins</div>
+              </div>
             </div>
             <div className="col-sm-2">
-              <input onChange={this.handleFieldChange} name="cookTime" 
-                type="text" placeholder="Cook Time (mins)" className="form-control" 
-              />
+              <div className="input-group">
+                <input onChange={this.handleFieldChange} name="cookTime" 
+                  type="text" placeholder="Cook" className="form-control" 
+                />
+                <div className="input-group-addon">mins</div>
+              </div>
             </div>
             <div className="col-sm-4">
               <div className="input-group">
@@ -157,7 +168,7 @@ var RecipeIngredientRow = React.createClass({
     // populate the model, name: value
     ingredient.set(name, value);
 
-    console.log( name, value, ingredient);
+    // console.log( name, value, ingredient );
     // this.setState({[e.target.name]: e.target.value});
     // this.props.onChange('ingredients', ingredient);
   },
@@ -324,26 +335,34 @@ var NewRecipeForm = React.createClass({
       // basic info
       name: '',
       author: '',
+      imageUrl: '',
       isPublic: false,
       // details
       type: '',
-      prepTime: '',
-      cookTime: '',
-      cookTemp: '',
+      prepTime: 0,
+      cookTime: 0,
+      cookTemp: 0,
       cookTempScale: 'F',
       yieldName: '',
-      yieldQty: '',
+      yieldQty: 0,
       ingredients : ingredients,
       notes: ''
     }
   },
   handleSubmit: function(e){
     e.preventDefault();
-    console.log(this.state)
+    // grab the ingredients collection and convert to JSON
+    var ingredients = this.state.ingredients;
+    var ingredientsJSON = ingredients.toJSON();
+    // update the state to JSON
+    this.setState({ingredients: ingredientsJSON});
+
+    console.log(this.state);
+
   },
   handleFieldChange: function(key, value){
     this.setState({[key]: value});
-    console.log(key, value, this.state);
+    // console.log(key, value, this.state);
   },
   render: function(){
     return(

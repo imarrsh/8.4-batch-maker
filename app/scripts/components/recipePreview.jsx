@@ -28,7 +28,7 @@ var RecipeImage = React.createClass({
     return(
       <Row>
         <div className="col-xs-12">
-          <img src={recipe.get('image')} alt="recipe-photo" />
+          <img src={recipe.get('imageUrl')} alt={recipe.get('name')} />
         </div>
       </Row>
     );
