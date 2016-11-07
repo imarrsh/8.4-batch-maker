@@ -1,19 +1,19 @@
 var Backbone = require('backbone');
 
-var IngredientFormBlock = Backbone.Model.extend({
-  defaults: {
-    name: '',
-    measureUnit: '',
-    measureQty: ''
-  }
+var IngredientBlock = Backbone.Model.extend({
+  // defaults: {
+  //   name: '',
+  //   measureUnit: '',
+  //   measureQty: ''
+  // }
 });
 
-var IngredientFormBlockCollection = Backbone.Collection.extend({
-  model: IngredientFormBlock
+var IngredientBlockCollection = Backbone.Collection.extend({
+  model: IngredientBlock
 });
 
 
 module.exports = {
-  IngredientFormBlock: IngredientFormBlock,
-  IngredientFormBlockCollection: IngredientFormBlockCollection
+  IngredientBlock: IngredientBlock,
+  IngredientBlockCollection: IngredientBlockCollection
 };

@@ -1,7 +1,6 @@
 var React = require('react');
 
-var IngredientFormBlockCollection = require('../models/ingredientsForm.js').IngredientFormBlockCollection;
-var IngredientFormBlock = require('../models/ingredientsForm.js').IngredientFormBlock;
+var IngredientBlockCollection = require('../models/ingredientsForm.js').IngredientBlockCollection;
 
 var AppWrapper = require('./layout/layouts.jsx').AppWrapper;
 var ContainerRow = require('./layout/layouts.jsx').ContainerRow;
@@ -33,13 +32,13 @@ var BasicInfoSet = React.createClass({
           </div>
           <div className="col-sm-9">
             <div className="form-group">
-              <input onChange={this.nameChangeHandler} value={this.state.recipeName} 
-               type="text" name="recipe-name" className="form-control" placeholder="Recipe Name"
+              <input onChange={this.props.fieldChange} value={this.state.recipeName} 
+               type="text" name="name" className="form-control" placeholder="Recipe Name"
               />
             </div>
             <div className="form-group">
               <input onChange={this.authorChangeHandler} value={this.state.recipeAuthor} 
-                type="text" name="recipe-author" className="form-control" placeholder="By You" 
+                type="text" name="author" className="form-control" placeholder="By You" 
               />
             </div>
             <div className="form-group">                      
@@ -76,7 +75,7 @@ var RecipeDetailSet = React.createClass({
     // get the target changed name and value
     // set the state
     this.setState({[e.target.name]: e.target.value});
-    console.log(changeObj);
+    // console.log(changeObj);
   },
   render: function(){
     return(
@@ -87,7 +86,7 @@ var RecipeDetailSet = React.createClass({
             <div className="col-sm-4">
               <select onChange={this.fieldChangeHandler} name="type" 
                 id="recipe-type" className="form-control">
-
+                {/* throws an error, but i want this behavior */}
                 <option selected disabled value>Recipe Type</option>
                 <option value="Breakfast">Breakfast</option>
                 <option value="Lunch">Lunch</option>
@@ -158,25 +157,43 @@ var RecipeIngredientRow = React.createClass({
       name: ''
     };
   },
-  handleInput: function(){},
+  handleInput: function(e){
+    console.log(e.target.name, e.target.value);
+    this.setState({[e.target.name]: e.target.value});
+  },
+  handleAddNewRow: function(e) {
+    // Collect data in an object
+    var ingredient = {
+      measureQty: this.state.measureQty,
+      measureUnit: this.state.measureUnit,
+      name: this.state.name
+    };
+
+    // hand off to smart component
+    this.props.newRow(ingredient)
+  },
   render: function(){
     var cid = this.props.key;
     return(
       <div className="form-group">
         <div className="row">
           <div className="col-sm-2">
-            <input type="text" name="measureQty"
-              className="form-control" placeholder="Qty" 
+            <input onChange={this.handleInput} value={this.state.measureQty}
+              type="text" name="measureQty" className="form-control" placeholder="Qty" 
             />
           </div>
           <div className="col-md-3">
-            <input type="text" name="measureUnit" className="form-control" placeholder="Unit" />
+            <input onChange={this.handleInput} type="text" 
+              name="measureUnit" className="form-control" placeholder="Unit" 
+            />
           </div>
           <div className="col-md-6">
-            <input type="text" name="name" className="form-control" placeholder="Ingredient" />
+            <input onChange={this.handleInput} type="text" 
+              name="name" className="form-control" placeholder="Ingredient" 
+            />
           </div>
           <div className="col-md-1">
-            <button onClick={this.props.newRow} type="button" className="btn btn-default"><b>+</b></button>
+            <button onClick={this.handleAddNewRow} type="button" className="btn btn-default"><b>+</b></button>
           </div>
         </div>
       </div>
@@ -188,26 +205,33 @@ var RecipeIngredientRow = React.createClass({
 // just adding ingredients here
 var RecipeStepsSet = React.createClass({
   getInitialState: function(){
-    var ingredientInputs = new IngredientFormBlockCollection();
+    var ingredientInputs = new IngredientBlockCollection();
     return {
       ingredientInputs: ingredientInputs, // from new IngredientFormBlockCollection()
-      ingredients: []
+      ingredients: [] // need to fill this up with objects
     };
   },
   componentWillMount: function(){
+    // hacking the collection for UI state
     this.state.ingredientInputs.add([{}]);
   },
-  // fieldChangeHandler: function(e){
-  //   // get the target changed name and value
-  //   // set the state
-  //   this.setState({[e.target.name]: e.target.value});
-  //   console.log(changeObj);
-  // },
-  addNewIngredientRow: function(e){
-    console.log('adding a new ingredient row...');
+  addNewIngredientRow: function(ingredient){
+    // get the current ingredients
+    var currentIngredients = this.state.ingredients;
+    // push the new ingredient
+    currentIngredients.push(ingredient);
+    // the the state for ingredients
+    this.setState({ingredients: currentIngredients});
+
+    // checking my work
+    console.log('adding a new ingredient row...', this.state.ingredients, this.state.ingredientInputs);
+    
+    // more collection hacking
     this.state.ingredientInputs.add([{}]);
 
-    this.setState({ingredientInputs: this.state.ingredientInputs});
+    this.setState({
+      ingredientInputs: this.state.ingredientInputs
+    });
   },
   render: function(){
     var self = this;
@@ -221,7 +245,8 @@ var RecipeStepsSet = React.createClass({
           );
         })}
 
-        {/* <div className="form-group">
+        {/* TODO: for actual recipe steps 
+        <div className="form-group">
           <div className="row">
             <div className="col-sm-12">
               <textarea name="stepDirections" className="form-control" rows="4" placeholder=""></textarea>
@@ -275,26 +300,33 @@ var RecipeSaveSet = React.createClass({
 
 
 var NewRecipeForm = React.createClass({
-  getInitialState: function(){
+  // getInitialState: function(){
 
-    return {
-      // basic info
-      name: '',
-      author: '',
-      // details
-      type: '',
-      prepTime: '',
-      cookTime: '',
-      cookTemp: '',
-      cookTempScale: 'F',
-      yieldName: '',
-      yieldQty: '',
-      ingredients : [],
-      notes: ''
-    }
-  },
+  //   return {
+  //     // basic info
+  //     name: '',
+  //     author: '',
+  //     // details
+  //     type: '',
+  //     prepTime: '',
+  //     cookTime: '',
+  //     cookTemp: '',
+  //     cookTempScale: 'F',
+  //     yieldName: '',
+  //     yieldQty: '',
+  //     ingredients : [],
+  //     notes: ''
+  //   }
+  // },
   fieldChangeHandler: function(e){
-    // top level method for collecting input state info
+    // get the target changed name and value
+    // set the state
+    this.setState({[e.target.name]: e.target.value});
+    // console.log(changeObj);
+  },
+  handleSubmit: function(e){
+    e.preventDefault();
+    console.log(this.getInitialState());
   },
   render: function(){
     return(
@@ -306,17 +338,17 @@ var NewRecipeForm = React.createClass({
 
               <div className="new-recipe-form">
 
-                <form id="new-recipe">
+                <form id="new-recipe" onSubmit={this.handleSubmit}>
                   
-                  <BasicInfoSet />
+                  <BasicInfoSet fieldChange={this.fieldChangeHandler}/>
 
-                  <RecipeDetailSet />
+                  <RecipeDetailSet fieldChange={this.fieldChangeHandler}/>
 
-                  <RecipeStepsSet />
+                  <RecipeStepsSet fieldChange={this.fieldChangeHandler}/>
 
-                  <RecipeNotesSet />
+                  <RecipeNotesSet fieldChange={this.fieldChangeHandler}/>
 
-                  <RecipeSaveSet />
+                  <RecipeSaveSet fieldChange={this.fieldChangeHandler}/>
 
                 </form>
 
