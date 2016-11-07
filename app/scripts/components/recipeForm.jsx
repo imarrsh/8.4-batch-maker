@@ -1,7 +1,13 @@
 var React = require('react');
 
+// form ui models
 var IngredientBlockCollection = require('../models/ingredientsForm.js').IngredientBlockCollection;
 
+// data models
+var Ingredient = require('../models/recipe.js').Ingredient;
+var IngredientCollection = require('../models/recipe.js').IngredientCollection;
+
+// layout components
 var AppWrapper = require('./layout/layouts.jsx').AppWrapper;
 var ContainerRow = require('./layout/layouts.jsx').ContainerRow;
 var Section = require('./layout/layouts.jsx').Section;
@@ -125,24 +131,28 @@ var RecipeDetailSet = React.createClass({
 });
 
 
+
+
+
 // individual ingredient row
 var RecipeIngredientRow = React.createClass({
   getInitialState: function(){
+    var newIngredient = new Ingredient();
     return {
       measureQty: '',
       measureUnit: '',
       name: ''
     };
   },
-  handleInput: function(e){
+  handleInput: function(e){ // update this input groups state
     var ingredient = this.props.model;
     ingredient.set(e.target.name, e.target.value);
 
     // console.log(e.target.name, e.target.value, ingredient);
     // this.setState({[e.target.name]: e.target.value});
-    this.props.onChange('ingredients', ingredient.toJSON());
+    this.props.onChange('ingredients', ingredient);
   },
-  handleAddNewRow: function(e) {
+  handleAddNewRow: function(e) { // add a new row
     // Collect data in an object
     var ingredient = {
       measureQty: this.state.measureQty,
@@ -180,22 +190,27 @@ var RecipeIngredientRow = React.createClass({
 });
 
 
+
+
+
+
 // just adding ingredients here
 var RecipeStepsSet = React.createClass({
   getInitialState: function(){
     var ingredientInputs = new IngredientBlockCollection();
     return {
       ingredientInputs: ingredientInputs, // from new IngredientBlockCollection()
-      ingredients: [] // need to fill this up with objects
+      ingredientCollection: [] // need to fill this up with objects
     };
   },
   componentWillMount: function(){
     // hacking the collection for UI state, add empty model
-    this.state.ingredientInputs.add([{}]);
+    this.state.ingredientInputs.add([{}]); // first ingredient
   },
   addNewIngredientRow: function(ingredient){
+
     var currentIngredients = this.state.ingredients; // get the current ingredients
-    currentIngredients.push(ingredient);// push the new ingredient
+    currentIngredients.push(ingredient); // push the new ingredient
 
     this.setState({ingredients: currentIngredients}); // the the state for ingredients
 
@@ -243,6 +258,11 @@ var RecipeStepsSet = React.createClass({
     );
   }
 });
+
+
+
+
+
 
 // add notes
 var RecipeNotesSet = React.createClass({
@@ -309,7 +329,7 @@ var NewRecipeForm = React.createClass({
   },
   handleSubmit: function(e){
     e.preventDefault();
-    
+    console.log(this.state)
   },
   handleFieldChange: function(key, value){
     this.setState({[key]: value});
@@ -335,7 +355,7 @@ var NewRecipeForm = React.createClass({
 
                   <RecipeNotesSet onChange={this.handleFieldChange} />
 
-                  <RecipeSaveSet />
+                  <RecipeSaveSet onSubmit={this.handleSubmit}/>
 
                 </form>
 
