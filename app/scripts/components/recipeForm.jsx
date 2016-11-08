@@ -7,6 +7,8 @@ var IngredientBlockCollection = require('../models/ingredientsForm.js').Ingredie
 // data models
 // var Ingredient = require('../models/recipe.js').Ingredient;
 // var IngredientCollection = require('../models/recipe.js').IngredientCollection;
+var RecipeCollection = require('../models/recipe').RecipeCollection;
+
 
 // layout components
 var AppWrapper = require('./layout/layouts.jsx').AppWrapper;
@@ -328,10 +330,13 @@ var RecipeSaveSet = React.createClass({
 });
 
 
-var NewRecipeForm = React.createClass({
+var NewEditRecipeForm = React.createClass({
   getInitialState: function(){
-    var ingredients = new IngredientBlockCollection();
+    var ingredients = new IngredientBlockCollection()
+    , recipe = this.props.recipe;
+
     return {
+      recipe: recipe,
       // basic info
       name: '',
       author: '',
@@ -349,6 +354,7 @@ var NewRecipeForm = React.createClass({
       notes: ''
     }
   },
+
   handleSubmit: function(e){
     e.preventDefault();
     // grab the ingredients collection and convert to JSON
@@ -357,14 +363,20 @@ var NewRecipeForm = React.createClass({
     // update the state to JSON
     this.setState({ingredients: ingredientsJSON});
 
-    console.log(this.state);
+    // console.log(this.state);
+    // instantiate a new recipecollection to add this new model to it
+    var recipeCollection = new RecipeCollection();
+    recipeCollection.create(this.state);
 
   },
+
   handleFieldChange: function(key, value){
     this.setState({[key]: value});
     // console.log(key, value, this.state);
   },
+
   render: function(){
+    // var heading = this.state.recipe.isNew() ? 'Add' : 'Editing';
     return(
       <AppWrapper>
         <Section>
@@ -373,7 +385,7 @@ var NewRecipeForm = React.createClass({
             <div className="col-md-8 col-md-offset-2">
 
               <div className="new-recipe-form">
-
+                <h1>{} Recipe</h1>
                 <form id="new-recipe" onSubmit={this.handleSubmit}>
                   
                   <BasicInfoSet onChange={this.handleFieldChange} />
@@ -400,5 +412,5 @@ var NewRecipeForm = React.createClass({
 });
 
 module.exports = {
-  NewRecipeForm: NewRecipeForm
+  NewEditRecipeForm: NewEditRecipeForm
 }

@@ -167,7 +167,7 @@ var RecipeEdit = React.createClass({
         <div className="col-xs-10 col-xs-offset-1">
           <div className="recipe-edit">
             <p>
-              Edit this recipe <a href="#recipe/id/edit" className="btn btn-primary">Start</a>
+              Edit this recipe <a href={'#recipe/' + this.props.recipe.get('objectId') + '/edit/'} className="btn btn-primary">Start</a>
             </p>
           </div>
         </div>

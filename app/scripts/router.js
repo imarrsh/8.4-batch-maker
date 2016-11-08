@@ -6,22 +6,24 @@ var RecipeCollection = require('./models/recipe').RecipeCollection;
 
 var LoginContainer = require('./components/loginSignup.jsx').LoginContainer;
 var HomeContainer = require('./components/app.jsx').HomeContainer;
-var NewRecipeForm = require('./components/recipeForm.jsx').NewRecipeForm;
+var NewEditRecipeForm = require('./components/recipeForm.jsx').NewEditRecipeForm;
 var RecipePreviewContainer = require('./components/recipePreview.jsx').RecipePreviewContainer;
 var AdjustRecipeContainer = require('./components/adjustRecipe.jsx').AdjustRecipeContainer;
 
+
 var AppRouter = Backbone.Router.extend({
   'routes': {
-    '': 'index', // home for user
+    '': 'index', // home for user, recipe list view
     'login/': 'login', // place to login
-    'recipe/new/': 'recipeNew', // new recipe
-    'recipe/:id': 'recipePreviewId', // the correct recipe preview
-    'recipe/:id/edit': 'recipeEdit', // recipe edit
+    'recipe/new/': 'recipeNewEdit', // new recipe
+    'recipe/:id/': 'recipePreview', // the correct recipe preview
+    'recipe/:id/edit/': 'recipeNewEdit', // recipe edit
     // temporary routes
-    'recipe/': 'recipePreview', // recipe view
+    // 'recipe/': 'recipePreview', // recipe view
     'adjust/': 'adjust' // recipe adjuster
   },
   initialize: function(){
+    // parseHeaders('mtparseserver', 'thompson1');
     this.recipes = new RecipeCollection();
 
     this.recipes.add([
@@ -76,7 +78,7 @@ var AppRouter = Backbone.Router.extend({
       {
         'objectId': 'evjsf7q1', //id value from the db
         'name': 'Green Bean Casserole',
-        'image': 'http://www.seriouseats.com/recipes/assets_c/2013/11/20131024-green-bean-cippolini-mushroom-thanksgiving-recipe-22-thumb-1500xauto-366559.jpg',
+        'imageUrl': 'http://www.seriouseats.com/recipes/assets_c/2013/11/20131024-green-bean-cippolini-mushroom-thanksgiving-recipe-22-thumb-1500xauto-366559.jpg',
         'author': 'Jane Doe',
         'isPublic': false,
         'type': 'Side',
@@ -116,51 +118,57 @@ var AppRouter = Backbone.Router.extend({
       }
     ]);
   },
+  // isLoggedIn: function (){
+  //   if (localStorage.getItem('sessionId')) {
+  //     console.log('you are logged in');
+  //     this.navigate('#login/', {trigger: true});
+  //   }
+  // },
   index: function(){
 
     ReactDOM.render(
-      React.createElement(HomeContainer, {collection: this.recipes}),
+      React.createElement(HomeContainer, {router: this, collection: this.recipes}),
       document.getElementById('app')
     );
   },
   login: function(){
 
     ReactDOM.render(
-      React.createElement(LoginContainer),
+      React.createElement(LoginContainer, {router: this}),
       document.getElementById('app')
     );
   },
-  recipeNew: function(){
-
-    ReactDOM.render(
-      React.createElement(NewRecipeForm),
-      document.getElementById('app')
-    );
-  },
-  recipePreviewId: function(id){
+  recipeNewEdit: function(id){
     var model = this.recipes.get(id)
     ReactDOM.render(
-      React.createElement(RecipePreviewContainer, {model: model}),
+      React.createElement(NewEditRecipeForm, {recipe: model, router: this}),
       document.getElementById('app')
     );
   },
-  recipeEdit: function(id){
-    // ReactDOM.render(
-    //   React.createElement(RecipeEdit, {model: id}),
-    //   document.getElementById('app')
-    // );
-  },
-  recipePreview: function(){
-
+  // recipePreviewId: function(id){
+  //   var model = this.recipes.get(id)
+  //   ReactDOM.render(
+  //     React.createElement(RecipePreviewContainer, {model: model, router: this}),
+  //     document.getElementById('app')
+  //   );
+  // },
+  // recipeEdit: function(id){
+  //   // ReactDOM.render(
+  //   //   React.createElement(RecipeEdit, {model: id}),
+  //   //   document.getElementById('app')
+  //   // );
+  // },
+  recipePreview: function(id){
+    var model = this.recipes.get(id)
     ReactDOM.render(
-      React.createElement(RecipePreviewContainer, {collection: this.recipes}),
+      React.createElement(RecipePreviewContainer, {model: model, router: this}),
       document.getElementById('app')
     );
   },
   adjust: function(){
 
     ReactDOM.render(
-      React.createElement(AdjustRecipeContainer, {collection: this.recipes}),
+      React.createElement(AdjustRecipeContainer, {collection: this.recipes, router: this}),
       document.getElementById('app')
     );
   }

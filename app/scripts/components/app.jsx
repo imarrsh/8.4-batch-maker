@@ -12,6 +12,11 @@ var HomeContainer = React.createClass({
       recipes: recipes
     };
   },
+  componentDidMount: function(){
+    var router = this.props.router;
+    // router.navigate('#login/', {trigger: true});
+    // console.log('router', this.props.router);
+  },
   render: function(){
     var recipes = this.state.recipes;
     return(
@@ -24,7 +29,7 @@ var HomeContainer = React.createClass({
                 {recipes.map(function(recipe){
                   return(
                     <a key={recipe.get('objectId')} 
-                       href={'#/recipe/' + recipe.get('objectId')} 
+                       href={'#recipe/' + recipe.get('objectId') + '/'} 
                        className="list-group-item">
                          {recipe.get('name')}
                     </a>

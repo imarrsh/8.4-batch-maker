@@ -4,7 +4,7 @@ var Backbone = require('backbone');
 var Ingredient = Backbone.Model.extend({
   idAttribute: 'objectId',
   defaults: {
-    qty: 1
+    measureQty: 0
   }
 });
 
@@ -21,13 +21,13 @@ var Recipe = Backbone.Model.extend({
   initialize: function(){
     // this.set('ingredients', new IngredientCollection());
   },
-  defaults: {
-    name: 'Recipe Name',
-    yieldName: 'servings',
-    yieldQty: 1,
-    yieldMeasurement: 'imperial',
-    ingredients: []
-  },
+  // defaults: {
+  //   name: 'Recipe Name',
+  //   yieldName: 'servings',
+  //   yieldQty: 1,
+  //   yieldMeasurement: 'imperial',
+  //   ingredients: []
+  // },
   updateYield: function(newYield){ // 24 (or any number)
     var oldYield = this.get('yieldQty'); // 12
     // console.log(newYield / oldYield);
@@ -58,7 +58,7 @@ var Recipe = Backbone.Model.extend({
 
 var RecipeCollection = Backbone.Collection.extend({
   model: Recipe,
-  // url: 'http://mtparseserver.herokuapp.com/classes/Recipe'
+  url: 'https://mt-parse-server.herokuapp.com/Classes/Recipe'
 });
 
 module.exports = {

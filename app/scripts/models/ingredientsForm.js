@@ -9,7 +9,8 @@ var IngredientBlock = Backbone.Model.extend({
 });
 
 var IngredientBlockCollection = Backbone.Collection.extend({
-  model: IngredientBlock
+  model: IngredientBlock,
+  // url: 'https://mt-parse-server.herokuapp.com/Classes/Recipe'
 });
 
 

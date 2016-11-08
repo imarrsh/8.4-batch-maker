@@ -1,3 +1,5 @@
+var $ = window.jQuery = window.$ = require('jquery');
+
 var $ = require('jquery');
 var Backbone = require('backbone');
 require('./router');
