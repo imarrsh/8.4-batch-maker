@@ -1,5 +1,7 @@
 var React = require('react');
 
+var Recipe = require('../models/recipe').Recipe;
+
 var AppWrapper = require('./layout/layouts.jsx').AppWrapper;
 var ContainerRow = require('./layout/layouts.jsx').ContainerRow;
 var Section = require('./layout/layouts.jsx').Section;
@@ -9,7 +11,7 @@ var Row = require('./layout/layouts.jsx').Row;
 var RecipeTitle = React.createClass({
   render: function(){
     var recipe = this.props.recipe;
-    console.log(recipe)
+    // console.log(recipe)
     return(
       <Row>
         <div className="col-xs-12">
@@ -70,6 +72,7 @@ var RecipeDetail = React.createClass({
 var RecipeTable = React.createClass({
   render: function(){
     var recipe = this.props.recipe;
+    console.log(recipe);
     return(
       <Row>
         <div className="col-xs-10 col-xs-offset-1">
@@ -80,18 +83,19 @@ var RecipeTable = React.createClass({
                 <ul className="list-group">
                   <li className="recipe-title list-group-item">
                     <h4>
-                      {recipe.get('yieldQty')} {recipe.get('yieldName')} <button className="btn btn-default">Adjust</button>
+                      {recipe.get('yieldQty')} {recipe.get('yieldName')} 
+                      <button className="btn btn-default">Adjust</button>
                     </h4>
                   </li>
                   {recipe.get('ingredients').map(function(ingredient){
                     return(
-                      <li key={ingredient.objectId} className="list-group-item">
+                      <li key={ingredient.cid} className="list-group-item">
                         <Row>
                           <div className="col-xs-3">
-                            <h4>{ingredient.measureQty} {ingredient.measureUnit}</h4>
+                            <h4>{ingredient.get('measureQty')} {ingredient.get('measureUnit')}</h4>
                           </div>
                           <div className="col-xs-9">
-                            <h4>{ingredient.name}</h4>
+                            <h4>{ingredient.get('name')}</h4>
                           </div>
                         </Row>
                       </li>
@@ -182,10 +186,24 @@ var RecipeEdit = React.createClass({
 var RecipePreviewContainer = React.createClass({
   getInitialState: function(){
     // var recipe = this.props.collection.get('hvjsf7q4');
-    var recipe = this.props.model;
     return {
-      recipe: recipe
+      recipe: new Recipe()
     }
+  },
+  componentWillMount: function(){
+    var recipe = this.state.recipe
+    , recipeId = this.props.recipeId;
+
+    console.log(recipe);
+
+    //no recipe ID - stop here
+    if (!recipeId){
+      return;
+    }
+
+    recipe.set('objectId', recipeId);
+    recipe.fetch().then(() => this.setState({recipe: recipe}));
+
   },
   render: function(){
     var recipe = this.state.recipe;

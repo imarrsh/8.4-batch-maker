@@ -1,5 +1,7 @@
 var React = require('react');
 
+var RecipeCollection = require('../models/recipe').RecipeCollection;
+
 var AppWrapper = require('./layout/layouts.jsx').AppWrapper;
 var ContainerRow = require('./layout/layouts.jsx').ContainerRow;
 var Section = require('./layout/layouts.jsx').Section;
@@ -7,10 +9,15 @@ var Row = require('./layout/layouts.jsx').Row;
 
 var HomeContainer = React.createClass({
   getInitialState: function(){
-    var recipes = this.props.collection;
+    var recipes = new RecipeCollection();
     return {
       recipes: recipes
     };
+  },
+  componentWillMount(){
+    var recipes = this.state.recipes;
+
+    recipes.fetch().then(() => this.setState({recipes: recipes}) );
   },
   componentDidMount: function(){
     var router = this.props.router;
@@ -19,6 +26,7 @@ var HomeContainer = React.createClass({
   },
   render: function(){
     var recipes = this.state.recipes;
+
     return(
       <AppWrapper>
         <ContainerRow>

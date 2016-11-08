@@ -7,6 +7,7 @@ var IngredientBlockCollection = require('../models/ingredientsForm.js').Ingredie
 // data models
 // var Ingredient = require('../models/recipe.js').Ingredient;
 // var IngredientCollection = require('../models/recipe.js').IngredientCollection;
+var Recipe = require('../models/recipe').Recipe;
 var RecipeCollection = require('../models/recipe').RecipeCollection;
 
 
@@ -222,11 +223,11 @@ var RecipeStepsSet = React.createClass({
   componentWillMount: function(){
     var newIngredient = new IngredientBlock();
 
-    this.state.ingredientInputs.add(newIngredient); // first ingredient
+    // this.state.ingredientInputs.add(newIngredient); // first ingredient
   },
   addIngredientRow: function(e){
     var newIngredient = new IngredientBlock();
-    this.state.ingredientInputs.add(newIngredient);
+    // this.state.ingredientInputs.add(newIngredient);
     
   //   var currentIngredients = this.state.ingredients; // get the current ingredients
   //   currentIngredients.push(ingredient); // push the new ingredient
@@ -258,7 +259,7 @@ var RecipeStepsSet = React.createClass({
       <fieldset className="form-group recipe-steps">
         <legend>Ingedients</legend>
         
-        {this.state.ingredientInputs.map(function(input){
+        {/*this.state.ingredientInputs.map(function(input){
           return (
             <RecipeIngredientRow 
               key={input.cid} 
@@ -266,7 +267,7 @@ var RecipeStepsSet = React.createClass({
               addIngredientRow={self.addIngredientRow} 
               onChange={self.props.onChange} />
           );
-        })}
+        })*/}
 
         {/* TODO: for actual recipe steps 
         <div className="form-group">
@@ -332,27 +333,48 @@ var RecipeSaveSet = React.createClass({
 
 var NewEditRecipeForm = React.createClass({
   getInitialState: function(){
-    var ingredients = new IngredientBlockCollection()
-    , recipe = this.props.recipe;
+    // var ingredients = new IngredientBlockCollection();
 
     return {
-      recipe: recipe,
+      recipe: new Recipe()
       // basic info
-      name: '',
-      author: '',
-      imageUrl: '',
-      isPublic: false,
-      // details
-      type: '',
-      prepTime: 0,
-      cookTime: 0,
-      cookTemp: 0,
-      cookTempScale: 'F',
-      yieldName: '',
-      yieldQty: 0,
-      ingredients : ingredients,
-      notes: ''
+      // name: '',
+      // author: '',
+      // imageUrl: '',
+      // isPublic: false,
+      // // details
+      // type: '',
+      // prepTime: 0,
+      // cookTime: 0,
+      // cookTemp: 0,
+      // cookTempScale: 'F',
+      // yieldName: '',
+      // yieldQty: 0,
+      // ingredients : ingredients,
+      // notes: ''
     }
+  },
+
+  componentWillMount: function(){
+    this.getRecipe();
+  },
+
+  componentWillReceiveProps: function(){
+    this.getRecipe();
+  },
+
+  getRecipe: function(){
+    var recipe = this.state.recipe;
+    var recipeId = this.props.recipeId;
+
+    // if not editing a recipe then returm now
+    if (!recipeId){
+      return;
+    }
+
+    recipe.set('objectId', recipeId);
+    recipe.fetch().then(() => this.setState({recipe: recipe}))
+
   },
 
   handleSubmit: function(e){
@@ -376,7 +398,9 @@ var NewEditRecipeForm = React.createClass({
   },
 
   render: function(){
-    // var heading = this.state.recipe.isNew() ? 'Add' : 'Editing';
+    var recipe = this.state.recipe;
+    var heading = recipe.isNew() ? 'Add' : 'Editing';
+    console.log(this.state.recipe)
     return(
       <AppWrapper>
         <Section>
@@ -385,7 +409,7 @@ var NewEditRecipeForm = React.createClass({
             <div className="col-md-8 col-md-offset-2">
 
               <div className="new-recipe-form">
-                <h1>{} Recipe</h1>
+                <h1>{heading} {recipe.get('name')}</h1>
                 <form id="new-recipe" onSubmit={this.handleSubmit}>
                   
                   <BasicInfoSet onChange={this.handleFieldChange} />

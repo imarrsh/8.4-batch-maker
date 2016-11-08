@@ -2,15 +2,15 @@ var Backbone = require('backbone');
 
 // ingredient model
 var Ingredient = Backbone.Model.extend({
-  idAttribute: 'objectId',
   defaults: {
+    name: '',
+    measureUnit: '',
     measureQty: 0
   }
 });
 
 var IngredientCollection = Backbone.Collection.extend({
-  model: Ingredient,
-  // url: 'http://mtparseserver.herokuapp.com/classes/Ingredient'
+  model: Ingredient
 });
 
 
@@ -18,6 +18,17 @@ var IngredientCollection = Backbone.Collection.extend({
 // recipe model
 var Recipe = Backbone.Model.extend({
   idAttribute: 'objectId',
+  // set the url root for the model
+  urlRoot: 'https://mt-parse-server.herokuapp.com/Classes/Recipe',
+  // default ingredients should be a collection
+  defaults: {
+    ingredients: new IngredientCollection() || []
+  },
+  parse: function(data){
+    // convert array from parse server to collection
+    data.ingredients = new IngredientCollection(data.ingredients);
+    return data;
+  },
   initialize: function(){
     // this.set('ingredients', new IngredientCollection());
   },
@@ -41,7 +52,7 @@ var Recipe = Backbone.Model.extend({
        // this is pretty terrible, but it works for now...
        // TODO: make this better
       return {
-        "objectId": ing.objectId,
+        // "objectId": ing.objectId,
         "name": ing.name,
         "measureUnit": ing.measureUnit,
         "measureQty": ing.measureQty * yieldResult
@@ -58,7 +69,10 @@ var Recipe = Backbone.Model.extend({
 
 var RecipeCollection = Backbone.Collection.extend({
   model: Recipe,
-  url: 'https://mt-parse-server.herokuapp.com/Classes/Recipe'
+  url: 'https://mt-parse-server.herokuapp.com/Classes/Recipe',
+  parse: function(data){
+    return data.results;
+  }
 });
 
 module.exports = {
