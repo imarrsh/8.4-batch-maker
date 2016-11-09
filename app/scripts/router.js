@@ -18,8 +18,8 @@ var AppRouter = Backbone.Router.extend({
     '': 'index', // home for user, recipe list view
     'login/': 'login', // place to login
     'recipe/new/': 'recipeNewEdit', // new recipe
-    'recipe/:id/': 'recipePreview', // the correct recipe preview
     'recipe/:id/edit/': 'recipeNewEdit', // recipe edit
+    'recipe/:id/': 'recipePreview', // the correct recipe preview
     // temporary routes
     // 'recipe/': 'recipePreview', // recipe view
     'adjust/': 'adjust' // recipe adjuster
@@ -31,51 +31,51 @@ var AppRouter = Backbone.Router.extend({
     // this.recipes.add([
     //   {
     //     'objectId': 'hvjsf7q4', //id value from the db
-    //     'name': 'Sweet Potato Casserole',
-    //     'imageUrl': 'http://www.seriouseats.com/recipes/assets_c/2015/11/20151110-sweet-potato-casserole-vicky-wasik-9-thumb-1500xauto-427744.jpg',
-    //     'author': 'Jane Doe',
-    //     'isPublic': false,
-    //     'type': 'Side',
-    //     'prepTime': 15,
-    //     'cookTime': 30,
-    //     'cookTemp': 400,
-    //     'cookTempScale': 'F',
-    //     'yieldName': 'servings',
-    //     'yieldQty': 12,
-    //     'yieldMeasurement': 'imperial',
-    //     'notes': 'This Sweet Potato Casserole Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo culpa, facere illo repudiandae dolorem dolore veritatis esse nulla cupiditate quas voluptates quasi eos iure quibusdam eveniet accusamus officiis! Dolorem, esse.',
-    //     'ingredients': [
-    //       {
-    //         'objectId': 'fnjkw47e',
-    //         'name': 'sweet potoato',
-    //         'measureUnit': 'pound',
-    //         'measureQty': 2
-    //       },
-    //       {
-    //         'objectId': 'fnjkw47f',
-    //         'name': 'marshmallows',
-    //         'measureUnit': 'cup',
-    //         'measureQty': 2
-    //       },
-    //       {
-    //         'objectId': 'fnjkw47x',
-    //         'name': 'brown sugar',
-    //         'measureUnit': 'cup',
-    //         'measureQty': 1.5
-    //       },
-    //       {
-    //         'objectId': 'dnjkw47x',
-    //         'name': 'crust',
-    //         'measureUnit': 'container',
-    //         'measureQty': 1
-    //       },
-    //       {
-    //         'objectId': 'dnfkw47z',
-    //         'name': 'banana',
-    //         'measureUnit': '',
-    //         'measureQty': 1
-    //       }
-    //     ]
+        // 'name': 'Sweet Potato Casserole',
+        // 'imageUrl': 'http://www.seriouseats.com/recipes/assets_c/2015/11/20151110-sweet-potato-casserole-vicky-wasik-9-thumb-1500xauto-427744.jpg',
+        // 'author': 'Jane Doe',
+        // 'isPublic': false,
+        // 'type': 'Side',
+        // 'prepTime': 15,
+        // 'cookTime': 30,
+        // 'cookTemp': 400,
+        // 'cookTempScale': 'F',
+        // 'yieldName': 'servings',
+        // 'yieldQty': 12,
+        // 'yieldMeasurement': 'imperial',
+        // 'notes': 'This Sweet Potato Casserole Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo culpa, facere illo repudiandae dolorem dolore veritatis esse nulla cupiditate quas voluptates quasi eos iure quibusdam eveniet accusamus officiis! Dolorem, esse.',
+        // 'ingredients': [
+        //   {
+        //     'objectId': 'fnjkw47e',
+        //     'name': 'sweet potoato',
+        //     'measureUnit': 'pound',
+        //     'measureQty': 2
+        //   },
+        //   {
+        //     'objectId': 'fnjkw47f',
+        //     'name': 'marshmallows',
+        //     'measureUnit': 'cup',
+        //     'measureQty': 2
+        //   },
+        //   {
+        //     'objectId': 'fnjkw47x',
+        //     'name': 'brown sugar',
+        //     'measureUnit': 'cup',
+        //     'measureQty': 1.5
+        //   },
+        //   {
+        //     'objectId': 'dnjkw47x',
+        //     'name': 'crust',
+        //     'measureUnit': 'container',
+        //     'measureQty': 1
+        //   },
+        //   {
+        //     'objectId': 'dnfkw47z',
+        //     'name': 'banana',
+        //     'measureUnit': '',
+        //     'measureQty': 1
+        //   }
+        // ]
     //   },
     //   {
     //     'objectId': 'evjsf7q1', //id value from the db
