@@ -23,6 +23,7 @@ var BasicInfoSet = React.createClass({
     this.props.onChange(e.target.name, e.target.value);
   },
   render: function () {
+    var recipe = this.props.recipe;
     return(
       <fieldset className="form-group recipe-basic-info">
         <legend>Basic Info</legend>
@@ -33,17 +34,17 @@ var BasicInfoSet = React.createClass({
           </div>
           <div className="col-sm-9">
             <div className="form-group">
-              <input onChange={this.handleFieldChange} 
-                type="text" name="name" className="form-control" placeholder="Recipe Name"
+              <input onChange={this.handleFieldChange} value={recipe.get('name')}
+                type="text" name="name" className="form-control" placeholder="Recipe Name" 
               />
             </div>
             <div className="form-group">
-              <input onChange={this.handleFieldChange}
+              <input onChange={this.handleFieldChange} value={recipe.get('author')}
                 type="text" name="author" className="form-control" placeholder="By You" 
               />
             </div>
             <div className="form-group">
-              <input onChange={this.handleFieldChange}
+              <input onChange={this.handleFieldChange} value={recipe.get('imageUrl')}
                 type="text" name="imageUrl" className="form-control" placeholder="Image Url" 
               />
             </div>
@@ -70,6 +71,7 @@ var RecipeDetailSet = React.createClass({
     this.props.onChange(e.target.name, e.target.value);
   },
   render: function(){
+    var recipe = this.props.recipe;
     return(
       <fieldset className="form-group recipe-details">
         <div className="form-group">
@@ -77,9 +79,9 @@ var RecipeDetailSet = React.createClass({
 
             <div className="col-sm-4">
               <select onChange={this.handleFieldChange} name="type" 
-                id="recipe-type" className="form-control">
+                id="recipe-type" className="form-control" defaultValue="" value={recipe.get('type')}>
                 {/* throws an error, but i want this behavior */}
-                <option selected disabled value>Recipe Type</option>
+                <option disabled value>Recipe Type</option>
                 <option value="Breakfast">Breakfast</option>
                 <option value="Lunch">Lunch</option>
                 <option value="Dinner">Dinner</option>
@@ -90,7 +92,7 @@ var RecipeDetailSet = React.createClass({
             </div>
             <div className="col-sm-2">
               <div className="input-group">
-                <input onChange={this.handleFieldChange} id="prepTime" name="prepTime"  
+                <input onChange={this.handleFieldChange} value={recipe.get('prepTime')} id="prepTime" name="prepTime"  
                   type="text" placeholder="Prep" className="form-control" 
                 />
                 <div className="input-group-addon">mins</div>
@@ -98,7 +100,7 @@ var RecipeDetailSet = React.createClass({
             </div>
             <div className="col-sm-2">
               <div className="input-group">
-                <input onChange={this.handleFieldChange} name="cookTime" 
+                <input onChange={this.handleFieldChange} value={recipe.get('cookTime')} name="cookTime" 
                   type="text" placeholder="Cook" className="form-control" 
                 />
                 <div className="input-group-addon">mins</div>
@@ -106,11 +108,11 @@ var RecipeDetailSet = React.createClass({
             </div>
             <div className="col-sm-4">
               <div className="input-group">
-                <input onChange={this.handleFieldChange} name="cookTemp" 
+                <input onChange={this.handleFieldChange} value={recipe.get('cookTemp')} name="cookTemp" 
                   type="text" placeholder="Cook Temp" className="form-control"
                 />
                 <div className="input-group-addon">
-                  <select onChange={this.handleFieldChange} name="cookTempScale" id="temp-scale">
+                  <select onChange={this.handleFieldChange} value={recipe.get('cookTempScale')} name="cookTempScale" id="temp-scale">
                     <option value="F">&deg;F</option>
                     <option value="C">&deg;C</option>
                   </select>
@@ -127,12 +129,12 @@ var RecipeDetailSet = React.createClass({
               This recipe will make
             </div>
             <div className="col-sm-2">
-              <input onChange={this.handleFieldChange} type="text" 
+              <input onChange={this.handleFieldChange} value={recipe.get('yieldQty')} type="text" 
                 name="yieldQty" placeholder="Amount" className="form-control" 
               />
             </div>
             <div className="col-sm-7">
-              <input onChange={this.handleFieldChange} type="text" 
+              <input onChange={this.handleFieldChange} value={recipe.get('yieldName')} type="text" 
                 name="yieldName" placeholder="cookies, loaves, ect." className="form-control" 
               />
             </div>
@@ -144,8 +146,6 @@ var RecipeDetailSet = React.createClass({
     );
   }
 });
-
-
 
 
 
@@ -171,33 +171,40 @@ var RecipeIngredientRow = React.createClass({
     // populate the model, name: value
     ingredient.set(name, value);
 
+    this.setState({[name]: value});
+
     // console.log( name, value, ingredient );
     // this.setState({[e.target.name]: e.target.value});
     // this.props.onChange('ingredients', ingredient);
   },
 
-  // handleAddNewRow: function(e) { // add a new row
+  // handleRemoveIngredient: function(e){
+  //   e.preventDefault();
+  //   var ingredient = this.props.model
 
+  //   this.;
   // },
+
+  // handleAddNewRow: function(e) { /* add a new row /* },
   render: function(){
-    var cid = this.props.key;
+    var ingredient = this.state.ingredient;
     return(
       <div className="form-group">
         <div className="row">
           <div className="col-sm-2">
-            <input onChange={this.handleInput}
+            <input onChange={this.handleInput} value={ingredient.get('measureQty')}
               type="text" name="measureQty" className="form-control" placeholder="Qty" />
           </div>
           <div className="col-md-3">
-            <input onChange={this.handleInput} type="text" 
-              name="measureUnit" className="form-control" placeholder="Unit" />
+            <input onChange={this.handleInput} value={ingredient.get('measureUnit')}
+              type="text" name="measureUnit" className="form-control" placeholder="Unit" />
           </div>
           <div className="col-md-6">
-            <input onChange={this.handleInput} type="text" 
-              name="name" className="form-control" placeholder="Ingredient" />
+            <input onChange={this.handleInput} value={ingredient.get('name')}
+              type="text" name="name" className="form-control" placeholder="Ingredient" />
           </div>
           <div className="col-md-1">
-            <button onClick={this.props.addIngredientRow} type="button" className="btn btn-default"><b>+</b></button>
+            <button onClick={() => this.props.removeIngredientRow(ingredient) } type="button" className="btn btn-danger"><b>—</b></button>
           </div>
         </div>
       </div>
@@ -215,59 +222,61 @@ var RecipeIngredientRow = React.createClass({
 var RecipeStepsSet = React.createClass({
   getInitialState: function(){
     // var ingredientInputs = new IngredientBlockCollection();
-    var ingredientInputs = this.props.ingredientBlocks;
+    var recipe = this.props.recipe;
     return {
-      ingredientInputs: ingredientInputs // from new IngredientBlockCollection()
+      recipe: recipe // from new IngredientBlockCollection()
     };
   },
-  componentWillMount: function(){
-    var newIngredient = new IngredientBlock();
 
-    // this.state.ingredientInputs.add(newIngredient); // first ingredient
-  },
+  // componentWillMount: function(){
+  //   var newIngredient = new IngredientBlock();
+
+  //   this.state.ingredientInputs.add(newIngredient); // first ingredient
+  // },
+
   addIngredientRow: function(e){
-    var newIngredient = new IngredientBlock();
-    // this.state.ingredientInputs.add(newIngredient);
+    e.preventDefault();
+    var recipe = this.state.recipe;
+    var ingredients = recipe.get('ingredients');
+
+    ingredients.add([{}]);
     
-  //   var currentIngredients = this.state.ingredients; // get the current ingredients
-  //   currentIngredients.push(ingredient); // push the new ingredient
-
-  //   this.setState({ingredients: currentIngredients}); // the the state for ingredients
-
-  //   // checking my work
-  //   console.log('adding a new ingredient row...', this.state.ingredients, this.state.ingredientInputs);
-    
-  //   // more collection hacking to add inputs
-  //   this.state.ingredientInputs.add([{}]);
-
-    this.setState({
-      ingredientInputs: this.state.ingredientInputs
-    });
+    this.setState({ recipe: recipe });
 
     /*
       I need to be able to update the ingredients on the top level state.
       when an empty model is added, i need to be able to tie the model 
       to a new ingredient object in the ingredients collection.
-     */
+    */
     
   },
   
+  removeIngredientRow: function(ingredient){
+    var recipe = this.state.recipe
+    , ingredients = recipe.get('ingredients');
+
+    ingredients.remove(ingredient);
+    this.setState({recipe: recipe});
+  },
 
   render: function(){
-    var self = this;
+
+    var recipe = this.state.recipe
+    , ingredients = recipe.get('ingredients');
+
     return(
       <fieldset className="form-group recipe-steps">
-        <legend>Ingedients</legend>
+        <legend>Ingedients <button onClick={this.addIngredientRow} className="btn btn-success pull-right">Add</button></legend>
         
-        {/*this.state.ingredientInputs.map(function(input){
+        {ingredients.map(ingredient => {
           return (
             <RecipeIngredientRow 
-              key={input.cid} 
-              model={input} 
-              addIngredientRow={self.addIngredientRow} 
-              onChange={self.props.onChange} />
+              key={ingredient.cid} 
+              model={ingredient} 
+              removeIngredientRow={this.removeIngredientRow} 
+              onChange={this.props.onChange} />
           );
-        })*/}
+        })}
 
         {/* TODO: for actual recipe steps 
         <div className="form-group">
@@ -294,6 +303,7 @@ var RecipeNotesSet = React.createClass({
     this.props.onChange(e.target.name, e.target.value);
   },
   render: function(){
+    var recipe = this.props.recipe;
     return(
       <fieldset className="form-group recipe-steps">
         <legend>Personal Notes</legend>
@@ -301,7 +311,7 @@ var RecipeNotesSet = React.createClass({
         <div className="form-group">
           <div className="row">
             <div className="col-sm-12">
-              <textarea onChange={this.handleFieldChange} name="notes" className="form-control" rows="6"></textarea>
+              <textarea onChange={this.handleFieldChange} value={recipe.get('notes')} name="notes" className="form-control" rows="6"></textarea>
             </div>
           </div>
         </div>
@@ -400,7 +410,7 @@ var NewEditRecipeForm = React.createClass({
   render: function(){
     var recipe = this.state.recipe;
     var heading = recipe.isNew() ? 'Add' : 'Editing';
-    console.log(this.state.recipe)
+    // console.log(this.state.recipe)
     return(
       <AppWrapper>
         <Section>
@@ -409,16 +419,16 @@ var NewEditRecipeForm = React.createClass({
             <div className="col-md-8 col-md-offset-2">
 
               <div className="new-recipe-form">
-                <h1>{heading} {recipe.get('name')}</h1>
+                <h1>{heading} {recipe.get('name') || 'Recipe'}</h1>
                 <form id="new-recipe" onSubmit={this.handleSubmit}>
                   
-                  <BasicInfoSet onChange={this.handleFieldChange} />
+                  <BasicInfoSet recipe={recipe} onChange={this.handleFieldChange} />
 
-                  <RecipeDetailSet onChange={this.handleFieldChange} />
+                  <RecipeDetailSet recipe={recipe} onChange={this.handleFieldChange} />
 
-                  <RecipeStepsSet onChange={this.handleFieldChange} ingredientBlocks={this.state.ingredients}/>
+                  <RecipeStepsSet recipe={recipe} onChange={this.handleFieldChange} ingredientBlocks={this.state.ingredients}/>
 
-                  <RecipeNotesSet onChange={this.handleFieldChange} />
+                  <RecipeNotesSet recipe={recipe} onChange={this.handleFieldChange} />
 
                   <RecipeSaveSet onSubmit={this.handleSubmit}/>
 

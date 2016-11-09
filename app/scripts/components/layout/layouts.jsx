@@ -45,7 +45,7 @@ var AppHeader = function(props){
               <li><a href="#">My Recipes</a></li>
               <li><a href="#recipe/new/">New Recipe</a></li>
             </ul>
-            <p className="navbar-text navbar-text-right">Signed in as {props.username}</p>
+            <p className="navbar-text pull-right">Signed in as {props.username}</p>
           </nav>
         </div>
       </div>

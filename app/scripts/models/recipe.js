@@ -5,7 +5,7 @@ var Ingredient = Backbone.Model.extend({
   defaults: {
     name: '',
     measureUnit: '',
-    measureQty: 0
+    measureQty: ''
   }
 });
 
