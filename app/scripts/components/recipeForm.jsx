@@ -178,13 +178,6 @@ var RecipeIngredientRow = React.createClass({
     // this.props.onChange('ingredients', ingredient);
   },
 
-  // handleRemoveIngredient: function(e){
-  //   e.preventDefault();
-  //   var ingredient = this.props.model
-
-  //   this.;
-  // },
-
   // handleAddNewRow: function(e) { /* add a new row /* },
   render: function(){
     var ingredient = this.state.ingredient;
@@ -243,12 +236,6 @@ var RecipeStepsSet = React.createClass({
     
     this.setState({ recipe: recipe });
 
-    /*
-      I need to be able to update the ingredients on the top level state.
-      when an empty model is added, i need to be able to tie the model 
-      to a new ingredient object in the ingredients collection.
-    */
-    
   },
   
   removeIngredientRow: function(ingredient){
@@ -343,25 +330,8 @@ var RecipeSaveSet = React.createClass({
 
 var NewEditRecipeForm = React.createClass({
   getInitialState: function(){
-    // var ingredients = new IngredientBlockCollection();
-
     return {
       recipe: new Recipe()
-      // basic info
-      // name: '',
-      // author: '',
-      // imageUrl: '',
-      // isPublic: false,
-      // // details
-      // type: '',
-      // prepTime: 0,
-      // cookTime: 0,
-      // cookTemp: 0,
-      // cookTempScale: 'F',
-      // yieldName: '',
-      // yieldQty: 0,
-      // ingredients : ingredients,
-      // notes: ''
     }
   },
 
@@ -377,7 +347,7 @@ var NewEditRecipeForm = React.createClass({
     var recipe = this.state.recipe;
     var recipeId = this.props.recipeId;
 
-    // if not editing a recipe then returm now
+    // if not editing a recipe then return now
     if (!recipeId){
       return;
     }
@@ -389,16 +359,22 @@ var NewEditRecipeForm = React.createClass({
 
   handleSubmit: function(e){
     e.preventDefault();
+    var recipe = this.state.recipe;
+    var ingredients = recipe.get('ingredients');
+
+    recipe.set('ingredients', ingredients.toJSON())
+
+    console.log(recipe.toJSON());
     // grab the ingredients collection and convert to JSON
-    var ingredients = this.state.ingredients;
-    var ingredientsJSON = ingredients.toJSON();
-    // update the state to JSON
-    this.setState({ingredients: ingredientsJSON});
+    // var ingredients = this.state.ingredients;
+    // var ingredientsJSON = ingredients.toJSON();
+    // // update the state to JSON
+    // this.setState({ingredients: ingredientsJSON});
 
     // console.log(this.state);
     // instantiate a new recipecollection to add this new model to it
-    var recipeCollection = new RecipeCollection();
-    recipeCollection.create(this.state);
+    // var recipeCollection = new RecipeCollection();
+    // recipeCollection.save(this.state);
 
   },
 
