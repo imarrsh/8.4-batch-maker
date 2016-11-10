@@ -4,4 +4,5 @@ node_modules
 .DS_Store
 dist/
 npm-degug.log
+*.sublime-workspace
 *.sublime-project
