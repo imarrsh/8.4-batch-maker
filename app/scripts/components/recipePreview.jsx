@@ -7,6 +7,9 @@ var ContainerRow = require('./layout/layouts.jsx').ContainerRow;
 var Section = require('./layout/layouts.jsx').Section;
 var Row = require('./layout/layouts.jsx').Row;
 
+// other components
+var AdjustRecipeContainer = require('./adjustRecipe.jsx').AdjustRecipeContainer;
+
 // 1
 var RecipeTitle = React.createClass({
   render: function(){
@@ -45,19 +48,19 @@ var RecipeDetail = React.createClass({
         <div className="col-sm-10 col-sm-offset-1">
           <Row>
             <ul className="list-group">
-              <li className="col-sm-3 list-group-item">
+              <li className="col-xs-3 list-group-item">
                 <h6>Recipe Type</h6>
                 <h2>{recipe.get('type')}</h2>
               </li>
-              <li className="col-sm-3 list-group-item">
+              <li className="col-xs-3 list-group-item">
                 <h6>Prep Time</h6>
                 <h2>{recipe.get('prepTime')}<small>min</small></h2>
               </li>
-              <li className="col-sm-3 list-group-item">
+              <li className="col-xs-3 list-group-item">
                 <h6>Cook Time</h6>
                 <h2>{recipe.get('cookTime')}<small>min</small></h2>
               </li>
-              <li className="col-sm-3 list-group-item">
+              <li className="col-xs-3 list-group-item">
                 <h6>Cook Temp</h6>
                 <h2>{recipe.get('cookTemp')}&deg;<small>F</small></h2>
               </li>
@@ -72,7 +75,7 @@ var RecipeDetail = React.createClass({
 var RecipeTable = React.createClass({
   render: function(){
     var recipe = this.props.recipe;
-    console.log(recipe);
+    // console.log(recipe);
     return(
       <Row>
         <div className="col-xs-10 col-xs-offset-1">
@@ -171,7 +174,9 @@ var RecipeEdit = React.createClass({
         <div className="col-xs-10 col-xs-offset-1">
           <div className="recipe-edit">
             <p>
-              Edit this recipe <a href={'#recipe/' + this.props.recipe.get('objectId') + '/edit/'} className="btn btn-primary">Start</a>
+              <a href={'#recipe/' + this.props.recipe.get('objectId') + '/edit/'} 
+              className="btn btn-primary">Edit Recipe</a>
+              <a href="" className="btn btn-danger pull-right">Delete recipe</a>
             </p>
           </div>
         </div>
@@ -194,9 +199,8 @@ var RecipePreviewContainer = React.createClass({
     var recipe = this.state.recipe
     , recipeId = this.props.recipeId;
 
-    console.log(recipe);
-
-    //no recipe ID - stop here
+    // no recipe ID - stop here
+    // this would come from an anchor
     if (!recipeId){
       return;
     }
@@ -207,6 +211,7 @@ var RecipePreviewContainer = React.createClass({
   },
   render: function(){
     var recipe = this.state.recipe;
+    // console.log('RECIPE', recipe)
     return(
       <AppWrapper>
         <ContainerRow>
@@ -220,7 +225,9 @@ var RecipePreviewContainer = React.createClass({
 
               <RecipeDetail recipe={recipe}/>
 
-              <RecipeTable recipe={recipe}/>
+              <AdjustRecipeContainer recipe={recipe} />
+
+              {/* <RecipeTable recipe={recipe}/> */}
               
               {/* TODO: add this in later */}
               {/* <RecipeSteps recipe={recipe}/> */}

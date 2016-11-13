@@ -68,8 +68,18 @@ var BasicInfoSet = React.createClass({
 // some recipe details
 var RecipeDetailSet = React.createClass({
   handleFieldChange(e){
-    this.props.onChange(e.target.name, e.target.value);
+    var value = e.target.value;
+
+    // check the event target type for a number value
+    if (e.target.type === "number"){
+      value = parseFloat(value);
+    }
+
+    this.props.onChange(e.target.name, value);
   },
+  // handleNumFieldChange(e){
+  //   this.props.onChange(e.target.name, parseInt(e.target.value));
+  // },
   render: function(){
     var recipe = this.props.recipe;
     return(
@@ -93,7 +103,7 @@ var RecipeDetailSet = React.createClass({
             <div className="col-sm-2">
               <div className="input-group">
                 <input onChange={this.handleFieldChange} value={recipe.get('prepTime')} id="prepTime" name="prepTime"  
-                  type="text" placeholder="Prep" className="form-control" 
+                  type="number" placeholder="Prep" className="form-control" 
                 />
                 <div className="input-group-addon">mins</div>
               </div>
@@ -101,7 +111,7 @@ var RecipeDetailSet = React.createClass({
             <div className="col-sm-2">
               <div className="input-group">
                 <input onChange={this.handleFieldChange} value={recipe.get('cookTime')} name="cookTime" 
-                  type="text" placeholder="Cook" className="form-control" 
+                  type="number" placeholder="Cook" className="form-control" 
                 />
                 <div className="input-group-addon">mins</div>
               </div>
@@ -109,7 +119,7 @@ var RecipeDetailSet = React.createClass({
             <div className="col-sm-4">
               <div className="input-group">
                 <input onChange={this.handleFieldChange} value={recipe.get('cookTemp')} name="cookTemp" 
-                  type="text" placeholder="Cook Temp" className="form-control"
+                  type="number" placeholder="Cook Temp" className="form-control"
                 />
                 <div className="input-group-addon">
                   <select onChange={this.handleFieldChange} value={recipe.get('cookTempScale')} name="cookTempScale" id="temp-scale">
@@ -129,7 +139,7 @@ var RecipeDetailSet = React.createClass({
               This recipe will make
             </div>
             <div className="col-sm-2">
-              <input onChange={this.handleFieldChange} value={recipe.get('yieldQty')} type="text" 
+              <input onChange={this.handleFieldChange} value={recipe.get('yieldQty')} type="number" 
                 name="yieldQty" placeholder="Amount" className="form-control" 
               />
             </div>
@@ -164,21 +174,22 @@ var RecipeIngredientRow = React.createClass({
     // get the ingredient from state
     var ingredient = this.state.ingredient;
     
+
     // store the values in variables
     var name = e.target.name;
     var value = e.target.value;
 
+    if (e.target.type === "number"){
+      value = parseFloat(value);
+    }
+
     // populate the model, name: value
     ingredient.set(name, value);
-
+    // also, update the state
     this.setState({[name]: value});
 
-    // console.log( name, value, ingredient );
-    // this.setState({[e.target.name]: e.target.value});
-    // this.props.onChange('ingredients', ingredient);
   },
 
-  // handleAddNewRow: function(e) { /* add a new row /* },
   render: function(){
     var ingredient = this.state.ingredient;
     return(
@@ -186,7 +197,7 @@ var RecipeIngredientRow = React.createClass({
         <div className="row">
           <div className="col-sm-2">
             <input onChange={this.handleInput} value={ingredient.get('measureQty')}
-              type="text" name="measureQty" className="form-control" placeholder="Qty" />
+              type="number" name="measureQty" className="form-control" placeholder="Qty" />
           </div>
           <div className="col-md-3">
             <input onChange={this.handleInput} value={ingredient.get('measureUnit')}
@@ -220,12 +231,6 @@ var RecipeStepsSet = React.createClass({
       recipe: recipe // from new IngredientBlockCollection()
     };
   },
-
-  // componentWillMount: function(){
-  //   var newIngredient = new IngredientBlock();
-
-  //   this.state.ingredientInputs.add(newIngredient); // first ingredient
-  // },
 
   addIngredientRow: function(e){
     e.preventDefault();
@@ -318,6 +323,7 @@ var RecipeSaveSet = React.createClass({
           <div className="row">
             <div className="col-sm-12">
               <input type="submit" value="Save Recipe" className="btn btn-primary" />
+              <input type="reset" value="Cancel" className="btn btn-default pull-right" />
             </div>
           </div>
         </div>
@@ -362,24 +368,17 @@ var NewEditRecipeForm = React.createClass({
     var recipe = this.state.recipe;
     var ingredients = recipe.get('ingredients');
 
-    recipe.set('ingredients', ingredients.toJSON())
+    recipe.set('ingredients', ingredients.toJSON());
 
-    console.log(recipe.toJSON());
-    // grab the ingredients collection and convert to JSON
-    // var ingredients = this.state.ingredients;
-    // var ingredientsJSON = ingredients.toJSON();
-    // // update the state to JSON
-    // this.setState({ingredients: ingredientsJSON});
-
-    // console.log(this.state);
-    // instantiate a new recipecollection to add this new model to it
-    // var recipeCollection = new RecipeCollection();
-    // recipeCollection.save(this.state);
+    // console.log(recipe);
+    recipe.save();
 
   },
 
   handleFieldChange: function(key, value){
-    this.setState({[key]: value});
+    var recipe = this.state.recipe;
+    
+    recipe.set({[key]: value});
     // console.log(key, value, this.state);
   },
 
@@ -402,7 +401,8 @@ var NewEditRecipeForm = React.createClass({
 
                   <RecipeDetailSet recipe={recipe} onChange={this.handleFieldChange} />
 
-                  <RecipeStepsSet recipe={recipe} onChange={this.handleFieldChange} ingredientBlocks={this.state.ingredients}/>
+                  <RecipeStepsSet recipe={recipe} onChange={this.handleFieldChange} 
+                    ingredientBlocks={this.state.ingredients} />
 
                   <RecipeNotesSet recipe={recipe} onChange={this.handleFieldChange} />
 

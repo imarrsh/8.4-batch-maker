@@ -83,12 +83,24 @@ var LoginContainer = React.createClass({
       password: this.state.password
     }
 
-    user.signUp(userCredentials);
+    // user.signUp();
+    User.signUp(userCredentials);
 
   },
-  handleLogIn: function(){
+  handleLogIn: function(e){
     e.preventDefault();
-    console.log('login action');
+    // console.log('login action');
+    var self = this;
+    var userCredentials = {
+      username: this.state.username,
+      password: this.state.password
+    }
+
+    User.logIn(userCredentials, function(){
+      self.props.router.navigate('#', {trigger: true});
+    });
+
+
   },
   render: function(){
     return(

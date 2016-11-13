@@ -9,16 +9,16 @@ var Row = require('./layout/layouts.jsx').Row;
 var IngredientList = React.createClass({
   render: function(){
     var recipe = this.props.recipe;
-    console.log(recipe);
+    // console.log(recipe);
     var ingredients = recipe.get('ingredients');
     return(
       <div className="recipe-ingredients">
         <ul className="ingredients-list">
           {ingredients.map(function(item){
             return(
-              <li key={item.objectId} className="ingredients-item">
+              <li key={item.cid} className="ingredients-item">
                 <label>
-                  <input type="checkbox" /> {item.measureQty} {item.measureUnit} {item.name}
+                  <input type="checkbox" /> {item.get('measureQty')} {item.get('measureUnit')} {item.get('name')}
                 </label>
               </li>
             );
@@ -32,43 +32,53 @@ var IngredientList = React.createClass({
 var AdjustRecipeForm = React.createClass({
   getInitialState: function(){
     return {
-      yield: this.props.recipe.get('yieldQty')
+      yieldQty: this.props.recipe.get('yieldQty')
     };
   },
-  handleYield: function(e){
-    this.setState({yield: e.target.value});
+
+  componentWillReceiveProps: function(nextProps){
+    // var yieldQty = nextProps.recipe.get('yieldQty');
+    this.setState({yieldQty: nextProps.recipe.get('yieldQty')});
   },
+
+  handleYield: function(e){
+    this.setState({yieldQty: e.target.value});
+  },
+
   handleSubmit: function(e){
     e.preventDefault();
-    var recipe = this.props.recipe;
-    recipe.updateYield(this.state.yield);
-    this.props.updateRecipe( recipe.getRecipeState() );
+    var yieldQty = this.state.yieldQty;
+    this.props.updateRecipe(yieldQty);
   },
+
   render: function(){
+    var yieldQty = this.state.yieldQty;
     var recipe = this.props.recipe;
-    // console.log(recipe.get('yieldQty'));
+    
     return(
       <div className="recipe-adjust-controls">
         <form  onSubmit={this.handleSubmit}>
           <label className="form-inline">
             Makes &nbsp;
             <input className="form-control yield-num"
-              defaultValue={recipe.get('yieldQty')}
-              onChange={this.handleYield} 
-              type="number"
-            />&nbsp; {recipe.get('yieldName')}
+              onChange={this.handleYield}
+              value={yieldQty}
+              type="number" />
+            &nbsp; {recipe.get('yieldName')}
           </label>
           <div className="measurements-control">
             <label htmlFor="measurement-us" className="radio-stack">
-              <input defaultChecked id="measurement-us" type="radio" name="measurements" value="imperial" /> 
+              <input defaultChecked id="measurement-us" type="radio" 
+                name="measurements" value="imperial" /> 
               <span>US</span>
             </label>
             <label htmlFor="measurement-metric" className="radio-stack">
-              <input disabled id="measurement-metric" type="radio" name="measurements" value="metric" />
+              <input disabled id="measurement-metric" type="radio" 
+                name="measurements" value="metric" />
               <span>Metric</span>
             </label>
           </div>
-          <input type="submit" value="Adjust Recipe" className="btn btn-default" />
+          <input type="submit" value="Adjust Recipe" className="btn btn-default pull-right" />
         </form>
       </div>
     );
@@ -77,37 +87,45 @@ var AdjustRecipeForm = React.createClass({
 
 var AdjustRecipeContainer = React.createClass({
   getInitialState: function(){
+
+    var recipe = this.props.recipe;
+
     return {
-      recipe: this.props.collection.get('hvjsf7q4')
+      recipe: recipe
     };
   },
+
+  // componentWillReceiveProps(nextProps){
+  //   this.setState({recipe: nextProps.recipe});
+  // },
+
   // getDefaultProps: function(){
   //   return {
   //     recipe: this.props.collection.get('hvjsf7q4')
   //   };
   // },
-  updateRecipe: function(updatedRecipe){
-    this.setState({recipe: updatedRecipe})
+
+  updateRecipe: function(newYield){
+    console.log(newYield);
+    var recipe = this.state.recipe;
+
+    recipe.updateYield(newYield);
+
+    this.setState({recipe: recipe})
   },
+
   render: function(){
     var recipe = this.state.recipe;
-    return (  
-      <AppWrapper>
-        <Section>
-          <ContainerRow>
-
-            <div className="col-md-6 col-md-offset-3">
-
-              <div className="card card-recipe-adjust">
-                <AdjustRecipeForm recipe={recipe} updateRecipe={this.updateRecipe} />
-                <IngredientList recipe={recipe}/>
-              </div>
-
-            </div>
-
-          </ContainerRow>
-        </Section>
-      </AppWrapper>
+    // console.log('AdjustRecipeContainer', recipe)
+    return (
+      <Row>
+        <div className="col-sm-10 col-sm-offset-1">
+          <div className="card card-recipe-adjust">
+            <AdjustRecipeForm recipe={recipe} updateRecipe={this.updateRecipe} />
+            <IngredientList recipe={recipe}/>
+          </div>
+        </div>
+      </Row>
     );
   }
 });

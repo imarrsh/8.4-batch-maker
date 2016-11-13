@@ -1,3 +1,6 @@
+// functionality repaced with actual ingredient model/collection
+// look in models/recipe.js
+
 var Backbone = require('backbone');
 
 var IngredientBlock = Backbone.Model.extend({

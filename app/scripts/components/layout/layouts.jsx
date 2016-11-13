@@ -45,7 +45,9 @@ var AppHeader = function(props){
               <li><a href="#">My Recipes</a></li>
               <li><a href="#recipe/new/">New Recipe</a></li>
             </ul>
-            <p className="navbar-text pull-right">Signed in as {props.username}</p>
+            <p className="navbar-text pull-right">
+              Signed in as {props.username} | <a href="#logout/">Logout</a>
+            </p>
           </nav>
         </div>
       </div>
@@ -54,9 +56,11 @@ var AppHeader = function(props){
 };
 
 var AppWrapper = function(props){
+  var currentUser = localStorage.getItem('user') ?
+    JSON.parse(localStorage.getItem('user')).username : 'anoymous';
   return(
     <div className="wrapper">
-      <AppHeader username={"USER_NAME"}/>
+      <AppHeader username={currentUser}/>
       {props.children}
     </div>
   )
