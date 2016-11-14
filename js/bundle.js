@@ -166,7 +166,6 @@ var HomeContainer = React.createClass({displayName: "HomeContainer",
   },
   render: function(){
     var recipes = this.state.recipes;
-
     return(
       React.createElement(AppWrapper, null, 
         React.createElement(ContainerRow, null, 
@@ -379,7 +378,7 @@ var LoginContainer = React.createClass({displayName: "LoginContainer",
     }
 
     User.logIn(userCredentials, function(){
-      self.props.router.navigate('#', {trigger: true});
+      self.props.router.navigate('', {trigger: true});
     });
 
 
@@ -792,7 +791,7 @@ var NewEditRecipeForm = React.createClass({displayName: "NewEditRecipeForm",
       }
     });
 
-    this.props.router.navigate('', {trigger: true, replace: true});
+    this.props.router.navigate('', {trigger: true, replace: true});   
   },
 
   handleReset: function (e) {
@@ -1233,10 +1232,14 @@ var RecipeCollection = Backbone.Collection.extend({
   url: function(){
     var user = JSON.parse(localStorage.getItem('user'));
     // setup the url to filter  only the user's own recipes
-    var url = 'https://mt-parse-server.herokuapp.com/Classes/Recipe' +
-    encodeURI('?where={"user":{"objectId":"' + user.objectId +
-      '","__type":"Pointer","className":"_User"}}'
-    );
+    var url;
+
+    if (user) {
+      url = 'https://mt-parse-server.herokuapp.com/Classes/Recipe' +
+      encodeURI('?where={"user":{"objectId":"' + user.objectId +
+        '","__type":"Pointer","className":"_User"}}'
+      );
+    }
 
     return url;
   },
@@ -1402,11 +1405,19 @@ var AppRouter = Backbone.Router.extend({
     // temporary routes
     // 'recipe/': 'recipePreview', // recipe view
     'adjust/': 'adjust', // recipe adjuster
-    'logout/': 'logout',
-    'delete/:id': 'delete'
+    'logout/': 'logout'
+  },
+
+  checkUser: function(){
+    var user = new User(JSON.parse(localStorage.getItem('user')));
+
+    return user;
   },
 
   initialize: function(){
+    if (!this.checkUser()){
+      this.navigate('login/', {trigger: true, replace: true});
+    }
     parseHeaders('mtparseserver', 'thompson1');
   },
 
