@@ -168,6 +168,17 @@ var RecipeNotes = React.createClass({
 })
 
 var RecipeEdit = React.createClass({
+  
+  handleDelete: function(){
+    var self = this;
+    var recipe = this.props.recipe;
+
+    Recipe.deleteRecipe(recipe, function(){
+      self.props.router.navigate('', {trigger: true, replace: true});
+    });
+
+  },
+  
   render: function(){
     return(
       <Row>
@@ -176,7 +187,7 @@ var RecipeEdit = React.createClass({
             <p>
               <a href={'#recipe/' + this.props.recipe.get('objectId') + '/edit/'} 
               className="btn btn-primary">Edit Recipe</a>
-              <a href="" className="btn btn-danger pull-right">Delete recipe</a>
+              <button onClick={this.handleDelete} className="btn btn-danger pull-right">Delete recipe</button>
             </p>
           </div>
         </div>
@@ -234,7 +245,7 @@ var RecipePreviewContainer = React.createClass({
               
               <RecipeNotes recipe={recipe}/>
 
-              <RecipeEdit recipe={recipe}/>
+              <RecipeEdit recipe={recipe} router={this.props.router}/>
 
             </div>
           </div>

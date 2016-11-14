@@ -34,7 +34,7 @@ var BasicInfoSet = React.createClass({
           </div>
           <div className="col-sm-9">
             <div className="form-group">
-              <input onChange={this.handleFieldChange} value={recipe.get('name')}
+              <input value={recipe.get('name')} onChange={this.handleFieldChange} 
                 type="text" name="name" className="form-control" placeholder="Recipe Name" 
               />
             </div>
@@ -54,7 +54,10 @@ var BasicInfoSet = React.createClass({
                 <input onChange={this.handleFieldChange} type="radio" name="isPublic" value={true}/> Make it Public
               </label> */}
               <label>
-                <input onChange={this.handleFieldChange} type="radio" name="isPublic" defaultChecked disabled value={false}/> Keep it Private
+                <input onChange={this.handleFieldChange} 
+                type="radio" name="isPublic" 
+                defaultChecked disabled value={false}/> 
+                  Keep it Private
               </label>
             </div>
           </div>
@@ -90,8 +93,7 @@ var RecipeDetailSet = React.createClass({
             <div className="col-sm-4">
               <select onChange={this.handleFieldChange} name="type" 
                 id="recipe-type" className="form-control" defaultValue="" value={recipe.get('type')}>
-                {/* throws an error, but i want this behavior */}
-                <option disabled value>Recipe Type</option>
+                <option disabled value="">Recipe Type</option>
                 <option value="Breakfast">Breakfast</option>
                 <option value="Lunch">Lunch</option>
                 <option value="Dinner">Dinner</option>
@@ -208,7 +210,8 @@ var RecipeIngredientRow = React.createClass({
               type="text" name="name" className="form-control" placeholder="Ingredient" />
           </div>
           <div className="col-md-1">
-            <button onClick={() => this.props.removeIngredientRow(ingredient) } type="button" className="btn btn-danger"><b>—</b></button>
+            <button onClick={() => this.props.removeIngredientRow(ingredient) } 
+              type="button" className="btn btn-danger"><b>—</b></button>
           </div>
         </div>
       </div>
@@ -323,7 +326,8 @@ var RecipeSaveSet = React.createClass({
           <div className="row">
             <div className="col-sm-12">
               <input type="submit" value="Save Recipe" className="btn btn-primary" />
-              <input type="reset" value="Cancel" className="btn btn-default pull-right" />
+              <input onReset={this.props.handleReset} type="reset" 
+                value="Cancel" className="btn btn-default pull-right" />
             </div>
           </div>
         </div>
@@ -351,6 +355,7 @@ var NewEditRecipeForm = React.createClass({
 
   getRecipe: function(){
     var recipe = this.state.recipe;
+    // comes in from the router if selected
     var recipeId = this.props.recipeId;
 
     // if not editing a recipe then return now
@@ -370,16 +375,28 @@ var NewEditRecipeForm = React.createClass({
 
     recipe.set('ingredients', ingredients.toJSON());
 
+    var currentUser = JSON.parse(localStorage.getItem('user'));
     // console.log(recipe);
-    recipe.save();
+    recipe.save({ 
+      user: {
+        __type: 'Pointer',
+        className: '_User',
+        objectId: currentUser.objectId
+      }
+    });
 
+    this.props.router.navigate('', {trigger: true, replace: true});
+  },
+
+  handleReset: function (e) {
+    e.preventDefault();
+    window.history.back();
   },
 
   handleFieldChange: function(key, value){
     var recipe = this.state.recipe;
-    
     recipe.set({[key]: value});
-    // console.log(key, value, this.state);
+    this.setState({recipe: recipe});
   },
 
   render: function(){
@@ -395,7 +412,8 @@ var NewEditRecipeForm = React.createClass({
 
               <div className="new-recipe-form">
                 <h1>{heading} {recipe.get('name') || 'Recipe'}</h1>
-                <form id="new-recipe" onSubmit={this.handleSubmit}>
+                <form id="new-recipe" onSubmit={this.handleSubmit} 
+                  onReset={this.handleReset}>
                   
                   <BasicInfoSet recipe={recipe} onChange={this.handleFieldChange} />
 

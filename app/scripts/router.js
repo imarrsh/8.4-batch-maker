@@ -3,6 +3,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var User = require('./models/user').User;
+var Recipe = require('./models/recipe').Recipe;
 
 var parseHeaders = require('./parseUtils').parseHeaders;
 
@@ -25,10 +26,12 @@ var AppRouter = Backbone.Router.extend({
     // temporary routes
     // 'recipe/': 'recipePreview', // recipe view
     'adjust/': 'adjust', // recipe adjuster
-    'logout/': 'logout'
+    'logout/': 'logout',
+    'delete/:id': 'delete'
   },
+
   initialize: function(){
-    parseHeaders('mtparseserver', 'thompson1');   
+    parseHeaders('mtparseserver', 'thompson1');
   },
 
   index: function(){

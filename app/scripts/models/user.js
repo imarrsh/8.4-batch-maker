@@ -23,9 +23,10 @@ var User = ParseUser.extend({
   logIn: function(userCredentials, callback){
 
     var user = new User();
+    user.auth();
 
     user.urlRoot = function(){
-      return 'http://mt-parse-server.herokuapp.com/login' +
+      return 'https://mt-parse-server.herokuapp.com/login' +
         '?username=' + encodeURI(userCredentials.username) +
         '&password=' + encodeURI(userCredentials.password);
     };
@@ -52,15 +53,15 @@ var User = ParseUser.extend({
     var user = new User();
     // set up url
     user.urlRoot = function(){
-      return 'http://mt-parse-server.herokuapp.com/users';
+      return 'https://mt-parse-server.herokuapp.com/users';
     };
     // call user auth
     user.auth();
 
     user.save(userCredentials)
       .then(function(response){
-        console.log(response);
-        // localStorage.setItem('user', JSON.stringify());
+        // console.log(response);
+        localStorage.setItem('user', JSON.stringify());
       });
 
   },
@@ -70,7 +71,7 @@ var User = ParseUser.extend({
     var user = new User(JSON.parse(localStorage.getItem('user')));
     // set up url
     user.urlRoot = function(){
-      return 'http://mt-parse-server.herokuapp.com/logout';
+      return 'https://mt-parse-server.herokuapp.com/logout';
     };
 
     user.fetch({

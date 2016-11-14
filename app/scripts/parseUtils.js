@@ -1,6 +1,7 @@
 // simple util function for header setting
 
 function parseHeaders(appId, apiKey, sessionId){
+  console.log(sessionId);
   $.ajaxSetup({
     beforeSend: function(xhr){
       xhr.setRequestHeader('X-Parse-Application-Id', appId);

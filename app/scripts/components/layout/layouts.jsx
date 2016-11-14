@@ -46,7 +46,10 @@ var AppHeader = function(props){
               <li><a href="#recipe/new/">New Recipe</a></li>
             </ul>
             <p className="navbar-text pull-right">
-              Signed in as {props.username} | <a href="#logout/">Logout</a>
+              {props.username ? 
+                'Signed in as ' + props.username :
+                'Not logged in' 
+              } | <a href="#logout/">Logout</a>
             </p>
           </nav>
         </div>
@@ -57,7 +60,7 @@ var AppHeader = function(props){
 
 var AppWrapper = function(props){
   var currentUser = localStorage.getItem('user') ?
-    JSON.parse(localStorage.getItem('user')).username : 'anoymous';
+    JSON.parse(localStorage.getItem('user')).username : '';
   return(
     <div className="wrapper">
       <AppHeader username={currentUser}/>
