@@ -26,7 +26,6 @@ var HomeContainer = React.createClass({
   },
   render: function(){
     var recipes = this.state.recipes;
-
     return(
       <AppWrapper>
         <ContainerRow>

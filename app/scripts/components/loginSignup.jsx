@@ -97,7 +97,7 @@ var LoginContainer = React.createClass({
     }
 
     User.logIn(userCredentials, function(){
-      self.props.router.navigate('#', {trigger: true});
+      self.props.router.navigate('', {trigger: true});
     });
 
 

@@ -76,10 +76,14 @@ var RecipeCollection = Backbone.Collection.extend({
   url: function(){
     var user = JSON.parse(localStorage.getItem('user'));
     // setup the url to filter  only the user's own recipes
-    var url = 'https://mt-parse-server.herokuapp.com/Classes/Recipe' +
-    encodeURI('?where={"user":{"objectId":"' + user.objectId +
-      '","__type":"Pointer","className":"_User"}}'
-    );
+    var url;
+
+    if (user) {
+      url = 'https://mt-parse-server.herokuapp.com/Classes/Recipe' +
+      encodeURI('?where={"user":{"objectId":"' + user.objectId +
+        '","__type":"Pointer","className":"_User"}}'
+      );
+    }
 
     return url;
   },

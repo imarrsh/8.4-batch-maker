@@ -385,7 +385,7 @@ var NewEditRecipeForm = React.createClass({
       }
     });
 
-    this.props.router.navigate('', {trigger: true, replace: true});
+    this.props.router.navigate('', {trigger: true, replace: true});   
   },
 
   handleReset: function (e) {

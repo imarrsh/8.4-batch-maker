@@ -26,11 +26,19 @@ var AppRouter = Backbone.Router.extend({
     // temporary routes
     // 'recipe/': 'recipePreview', // recipe view
     'adjust/': 'adjust', // recipe adjuster
-    'logout/': 'logout',
-    'delete/:id': 'delete'
+    'logout/': 'logout'
+  },
+
+  checkUser: function(){
+    var user = new User(JSON.parse(localStorage.getItem('user')));
+
+    return user;
   },
 
   initialize: function(){
+    if (!this.checkUser()){
+      this.navigate('login/', {trigger: true, replace: true});
+    }
     parseHeaders('mtparseserver', 'thompson1');
   },
 
