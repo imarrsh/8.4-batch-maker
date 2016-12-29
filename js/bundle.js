@@ -581,14 +581,18 @@ var RecipeIngredientRow = React.createClass({displayName: "RecipeIngredientRow",
   handleInput: function(e){ 
     // get the ingredient from state
     var ingredient = this.state.ingredient;
-    
-
+    // console.log(e.target.value);
     // store the values in variables
     var name = e.target.name;
     var value = e.target.value;
 
     if (e.target.type === "number"){
-      value = parseFloat(value);
+      // check if input started with a leading '.'
+      if (value.indexOf('.') === 0) {
+        value = '0' + value;
+      }
+      var re = /(?:\d*\.)?\d+/g; // regex for matching number and decimal patterns
+      value = re.exec(value);
     }
 
     // populate the model, name: value
@@ -604,8 +608,8 @@ var RecipeIngredientRow = React.createClass({displayName: "RecipeIngredientRow",
       React.createElement("div", {className: "form-group"}, 
         React.createElement("div", {className: "row"}, 
           React.createElement("div", {className: "col-sm-2"}, 
-            React.createElement("input", {onChange: this.handleInput, value: ingredient.get('measureQty'), 
-              type: "number", name: "measureQty", className: "form-control", placeholder: "Qty"})
+            React.createElement("input", {onChange: this.handleInput, onBlur: () => parseInt(ingredient.get('measureQty')), value: ingredient.get('measureQty'), 
+              type: "number", step: "0.01", name: "measureQty", className: "form-control", placeholder: "Qty"})
           ), 
           React.createElement("div", {className: "col-md-3"}, 
             React.createElement("input", {onChange: this.handleInput, value: ingredient.get('measureUnit'), 
@@ -667,7 +671,7 @@ var RecipeStepsSet = React.createClass({displayName: "RecipeStepsSet",
 
     return(
       React.createElement("fieldset", {className: "form-group recipe-steps"}, 
-        React.createElement("legend", null, "Ingedients ", React.createElement("button", {onClick: this.addIngredientRow, className: "btn btn-success pull-right"}, "Add")), 
+        React.createElement("legend", null, "Ingedients"), 
         
         ingredients.map(ingredient => {
           return (
@@ -677,7 +681,7 @@ var RecipeStepsSet = React.createClass({displayName: "RecipeStepsSet",
               removeIngredientRow: this.removeIngredientRow, 
               onChange: this.props.onChange})
           );
-        })
+        }), 
 
         /* TODO: for actual recipe steps 
         <div className="form-group">
@@ -687,7 +691,9 @@ var RecipeStepsSet = React.createClass({displayName: "RecipeStepsSet",
             </div>
           </div>
         </div> */
-
+        React.createElement("div", null, 
+          React.createElement("button", {onClick: this.addIngredientRow, className: "btn btn-success"}, "Add")
+        )
       )
     );
   }
@@ -886,7 +892,7 @@ var RecipeImage = React.createClass({displayName: "RecipeImage",
     return(
       React.createElement(Row, null, 
         React.createElement("div", {className: "col-xs-12"}, 
-          React.createElement("img", {src: recipe.get('imageUrl'), alt: recipe.get('name')})
+          React.createElement("img", {className: "recipe-photo", src: recipe.get('imageUrl'), alt: recipe.get('name')})
         )
       )
     );
@@ -898,8 +904,8 @@ var RecipeDetail = React.createClass({displayName: "RecipeDetail",
     var recipe = this.props.recipe;
     return(
       React.createElement(Row, null, 
-        React.createElement("div", {className: "col-sm-10 col-sm-offset-1"}, 
-          React.createElement(Row, null, 
+        React.createElement("div", {className: "col-sm-12"}, 
+
             React.createElement("ul", {className: "list-group"}, 
               React.createElement("li", {className: "col-xs-3 list-group-item"}, 
                 React.createElement("h6", null, "Recipe Type"), 
@@ -918,7 +924,7 @@ var RecipeDetail = React.createClass({displayName: "RecipeDetail",
                 React.createElement("h2", null, recipe.get('cookTemp'), "°", React.createElement("small", null, "F"))
               )
             )
-          )
+
         )
       )
     )
