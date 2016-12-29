@@ -33,7 +33,7 @@ var RecipeImage = React.createClass({
     return(
       <Row>
         <div className="col-xs-12">
-          <img src={recipe.get('imageUrl')} alt={recipe.get('name')} />
+          <img className="recipe-photo" src={recipe.get('imageUrl')} alt={recipe.get('name')} />
         </div>
       </Row>
     );
@@ -45,8 +45,8 @@ var RecipeDetail = React.createClass({
     var recipe = this.props.recipe;
     return(
       <Row>
-        <div className="col-sm-10 col-sm-offset-1">
-          <Row>
+        <div className="col-sm-12">
+
             <ul className="list-group">
               <li className="col-xs-3 list-group-item">
                 <h6>Recipe Type</h6>
@@ -65,7 +65,7 @@ var RecipeDetail = React.createClass({
                 <h2>{recipe.get('cookTemp')}&deg;<small>F</small></h2>
               </li>
             </ul>
-          </Row>
+
         </div>
       </Row>
     )

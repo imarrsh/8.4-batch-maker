@@ -175,14 +175,18 @@ var RecipeIngredientRow = React.createClass({
   handleInput: function(e){ 
     // get the ingredient from state
     var ingredient = this.state.ingredient;
-    
-
+    // console.log(e.target.value);
     // store the values in variables
     var name = e.target.name;
     var value = e.target.value;
 
     if (e.target.type === "number"){
-      value = parseFloat(value);
+      // check if input started with a leading '.'
+      if (value.indexOf('.') === 0) {
+        value = '0' + value;
+      }
+      var re = /(?:\d*\.)?\d+/g; // regex for matching number and decimal patterns
+      value = re.exec(value);
     }
 
     // populate the model, name: value
@@ -198,8 +202,8 @@ var RecipeIngredientRow = React.createClass({
       <div className="form-group">
         <div className="row">
           <div className="col-sm-2">
-            <input onChange={this.handleInput} value={ingredient.get('measureQty')}
-              type="number" name="measureQty" className="form-control" placeholder="Qty" />
+            <input onChange={this.handleInput} onBlur={() => parseInt(ingredient.get('measureQty'))} value={ingredient.get('measureQty')}
+              type="number" step="0.01" name="measureQty" className="form-control" placeholder="Qty" />
           </div>
           <div className="col-md-3">
             <input onChange={this.handleInput} value={ingredient.get('measureUnit')}
@@ -261,7 +265,7 @@ var RecipeStepsSet = React.createClass({
 
     return(
       <fieldset className="form-group recipe-steps">
-        <legend>Ingedients <button onClick={this.addIngredientRow} className="btn btn-success pull-right">Add</button></legend>
+        <legend>Ingedients</legend>
         
         {ingredients.map(ingredient => {
           return (
@@ -281,7 +285,9 @@ var RecipeStepsSet = React.createClass({
             </div>
           </div>
         </div> */}
-
+        <div>
+          <button onClick={this.addIngredientRow} className="btn btn-success">Add</button>
+        </div>
       </fieldset>
     );
   }
