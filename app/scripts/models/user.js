@@ -84,6 +84,13 @@ var User = ParseUser.extend({
     });
 
     callback();
+  },
+
+  current: function(){
+    var user = new User(JSON.parse(localStorage.getItem('user')));
+    // console.log(user);
+    return user;
+
   }
 
 });

@@ -29,18 +29,49 @@ var AppRouter = Backbone.Router.extend({
     'logout/': 'logout'
   },
 
-  checkUser: function(){
-    var user = new User(JSON.parse(localStorage.getItem('user')));
+  gotoLogin: function(){
+    this.navigate('login/', {trigger: true});
+    this.login();
+  },
 
-    return user;
+  execute: function(callback, args, name){
+
+    var user = User.current();
+    var token = user.get('sessionToken');
+
+    // check for a token and a valid route name
+    if (!token && name !== 'overview'){
+      // console.log('token is', token);
+      this.gotoLogin();
+      return false;
+    }
+
+    if (callback) {
+      callback.apply(this, args);
+    }
+
   },
 
   initialize: function(){
-    if (!this.checkUser()){
-      this.navigate('login/', {trigger: true, replace: true});
-    }
-    parseHeaders('mtparseserver', 'thompson1');
+    var user = User.current() || {}; // fill user up with user model
+
+    // set headers for Parse
+    parseHeaders('mtparseserver', 'thompson1', user.get('sessionToken'));
+
   },
+
+  // checkUser: function(){
+  //   var user = new User(JSON.parse(localStorage.getItem('user')));
+
+  //   return user;
+  // },
+
+  // initialize: function(){
+  //   if (!this.checkUser()){
+  //     this.navigate('login/', {trigger: true, replace: true});
+  //   }
+  //   parseHeaders('mtparseserver', 'thompson1');
+  // },
 
   index: function(){
 
