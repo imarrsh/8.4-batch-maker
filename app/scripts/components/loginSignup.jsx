@@ -16,17 +16,30 @@ var LoginForm = React.createClass({
           <form onSubmit={this.props.onSubmit}>
             <div className="form-group">
               <input onChange={this.props.onChange} 
+                value={this.props.user}
                 name="username" type="email" 
                 className="form-control" placeholder="Email" />
             </div>
             <div className="form-group">
-              <input onChange={this.props.onChange} 
+              <input onChange={this.props.onChange}
+                value={this.props.pass}
                 name="password" type="password" 
                 className="form-control" placeholder="Password" />
             </div>
-            <input type="submit" 
-              className="form-control btn btn-primary" 
-              value="Log In" />
+            <div className="row">
+              <div className="col-sm-9">
+                <input type="submit" 
+                  className="form-control btn btn-primary" 
+                  value="Log In" />
+              </div>
+              <div className="col-sm-3">
+                <input onClick={this.props.demo}
+                  type="button" 
+                  className="form-control btn btn-danger" 
+                  value="Demo" 
+                />
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -102,14 +115,31 @@ var LoginContainer = React.createClass({
 
 
   },
+
+  handleDemoInput: function(e){
+    this.setState({ 
+      username: "demo@demo.com",
+      password: "demo"
+    });
+  },
+
   render: function(){
     return(
       <AppWrapper>
         <ContainerRow>
 
-            <LoginForm onChange={this.handleChange} onSubmit={this.handleLogIn}/>
+            <LoginForm 
+              onChange={this.handleChange} 
+              onSubmit={this.handleLogIn} 
+              demo={this.handleDemoInput}
+              user={this.state.username}
+              pass={this.state.password}
+            />
 
-            <SignUpForm onChange={this.handleChange} onSubmit={this.handleSignUp}/>
+            <SignUpForm 
+              onChange={this.handleChange} 
+              onSubmit={this.handleSignUp}
+            />
             
         </ContainerRow>
       </AppWrapper>
