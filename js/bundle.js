@@ -297,17 +297,30 @@ var LoginForm = React.createClass({displayName: "LoginForm",
           React.createElement("form", {onSubmit: this.props.onSubmit}, 
             React.createElement("div", {className: "form-group"}, 
               React.createElement("input", {onChange: this.props.onChange, 
+                value: this.props.user, 
                 name: "username", type: "email", 
                 className: "form-control", placeholder: "Email"})
             ), 
             React.createElement("div", {className: "form-group"}, 
               React.createElement("input", {onChange: this.props.onChange, 
+                value: this.props.pass, 
                 name: "password", type: "password", 
                 className: "form-control", placeholder: "Password"})
             ), 
-            React.createElement("input", {type: "submit", 
-              className: "form-control btn btn-primary", 
-              value: "Log In"})
+            React.createElement("div", {className: "row"}, 
+              React.createElement("div", {className: "col-sm-9"}, 
+                React.createElement("input", {type: "submit", 
+                  className: "form-control btn btn-primary", 
+                  value: "Log In"})
+              ), 
+              React.createElement("div", {className: "col-sm-3"}, 
+                React.createElement("input", {onClick: this.props.demo, 
+                  type: "button", 
+                  className: "form-control btn btn-danger", 
+                  value: "Demo"}
+                )
+              )
+            )
           )
         )
       )
@@ -383,14 +396,31 @@ var LoginContainer = React.createClass({displayName: "LoginContainer",
 
 
   },
+
+  handleDemoInput: function(e){
+    this.setState({ 
+      username: "demo@demo.com",
+      password: "demo"
+    });
+  },
+
   render: function(){
     return(
       React.createElement(AppWrapper, null, 
         React.createElement(ContainerRow, null, 
 
-            React.createElement(LoginForm, {onChange: this.handleChange, onSubmit: this.handleLogIn}), 
+            React.createElement(LoginForm, {
+              onChange: this.handleChange, 
+              onSubmit: this.handleLogIn, 
+              demo: this.handleDemoInput, 
+              user: this.state.username, 
+              pass: this.state.password}
+            ), 
 
-            React.createElement(SignUpForm, {onChange: this.handleChange, onSubmit: this.handleSignUp})
+            React.createElement(SignUpForm, {
+              onChange: this.handleChange, 
+              onSubmit: this.handleSignUp}
+            )
             
         )
       )
